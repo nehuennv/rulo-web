@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist_Mono, Poppins, Playfair_Display, Lexend } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { SmoothScrolling } from "@/components/SmoothScrolling";
+import { FloatingNav } from "@/components/FloatingNav";
+import { FloatingContact } from "@/components/FloatingContact";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
+  variable: "--font-poppins",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-accent",
+  style: ["normal", "italic"],
+});
+
+const lexend = Lexend({
+  subsets: ["latin"],
+  variable: "--font-lexend",
 });
 
 const geistMono = Geist_Mono({
@@ -27,10 +40,16 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
+      lang="es"
+      className={cn("h-full", "antialiased", poppins.variable, playfair.variable, lexend.variable, geistMono.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <SmoothScrolling>
+          {children}
+          <FloatingNav />
+          <FloatingContact />
+        </SmoothScrolling>
+      </body>
     </html>
   );
 }
