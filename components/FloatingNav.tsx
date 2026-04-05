@@ -7,19 +7,16 @@ import Link from "next/link";
 export const FloatingNav = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Aparece recién al pasar los primeros 150px (cuando y dejas el Hero)
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 150) {
+      if (window.scrollY > 120) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    // Validación inicial por si recarga la página a la mitad
     handleScroll();
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -32,51 +29,54 @@ export const FloatingNav = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -50, opacity: 0 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] transform-gpu w-[95%] sm:w-auto max-w-4xl flex justify-center"
+          className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-[100] transform-gpu w-[95%] md:w-auto max-w-4xl flex justify-center"
         >
-          {/* Píldora de Cristal - Top Nav (Pill Aesthetic) */}
-          <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-6 px-3 sm:px-6 py-2 sm:py-3 rounded-full transition-all duration-300 w-full sm:w-auto bg-[#160b29]/80 backdrop-blur-2xl border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+          {/* Contenedor Principal: 
+            p-1.5 es el "abrazo" general. 
+            justify-between para mobile, justify-start para PC 
+          */}
+          <div className="flex items-center justify-between md:justify-start p-1.5 rounded-full transition-all w-full md:w-auto bg-[#231F1E]/85 backdrop-blur-2xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
 
-            {/* Logo Link (Izquierda) */}
+            {/* 1. Sector Izquierdo (Logo) */}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-xl sm:text-2xl font-brand font-bold text-brand-cream px-2 hover:opacity-80 transition-opacity focus:outline-none tracking-tighter leading-none"
+              className="flex items-center pl-3 sm:pl-4 md:pl-6 pr-2 md:pr-4 text-lg sm:text-xl md:text-2xl font-brand font-bold text-brand-bone hover:text-white transition-colors focus:outline-none tracking-tight"
             >
-              rulo<span className="text-brand-yellow">.</span>
+              rulo<span className="text-brand-terracotta">.</span>
             </button>
 
-            {/* Divider vertical en Desktop */}
-            <div className="hidden md:block w-[1px] h-6 bg-white/10 mx-1" />
+            {/* 2. Primer Separador */}
+            <div className="hidden md:block w-[1px] h-5 bg-white/10 mx-1" />
 
-            {/* Nav Links (Centro - Textos Familiares) */}
-            <div className="hidden md:flex items-center gap-6">
+            {/* 3. Sector Central (Links) */}
+            <div className="hidden md:flex items-center gap-1 px-4">
               <Link
                 href="#problem-agitation"
-                className="text-sm font-sans font-medium text-brand-cream/80 hover:text-brand-yellow transition-colors"
+                className="px-4 py-2 rounded-full text-sm font-sans font-medium text-brand-bone/80 hover:text-white hover:bg-white/5 transition-all"
               >
                 Sistema
               </Link>
               <Link
                 href="#roi"
-                className="text-sm font-sans font-medium text-brand-cream/80 hover:text-brand-yellow transition-colors"
+                className="px-4 py-2 rounded-full text-sm font-sans font-medium text-brand-bone/80 hover:text-white hover:bg-white/5 transition-all"
               >
                 Rentabilidad
               </Link>
               <Link
                 href="#faq"
-                className="text-sm font-sans font-medium text-brand-cream/80 hover:text-white transition-colors"
+                className="px-4 py-2 rounded-full text-sm font-sans font-medium text-brand-bone/80 hover:text-white hover:bg-white/5 transition-all"
               >
                 FAQ
               </Link>
             </div>
 
-            {/* Divider vertical en Desktop antes del botón */}
-            <div className="hidden md:block w-[1px] h-6 bg-white/10 mx-1" />
+            {/* 4. Segundo Separador */}
+            <div className="hidden md:block w-[1px] h-5 bg-white/10 mx-1" />
 
-            {/* CTA Embebido (Derecha) */}
+            {/* 5. Sector Derecho (CTA) */}
             <Link
               href="#final-cta"
-              className="ml-auto bg-brand-yellow text-brand-purple px-5 sm:px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm hover:bg-brand-yellow-hover hover:-translate-y-0.5 transition-all transform-gpu shadow-[0_5px_15px_rgba(0,0,0,0.3)]"
+              className="ml-2 bg-brand-terracotta text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-sans font-bold text-[11px] sm:text-sm transition-all transform-gpu hover:scale-[1.02] hover:bg-brand-terracotta-hover shadow-[0_0_15px_rgba(201,82,59,0.3)] hover:shadow-[0_0_25px_rgba(201,82,59,0.5)] whitespace-nowrap"
             >
               Agendar Demo
             </Link>

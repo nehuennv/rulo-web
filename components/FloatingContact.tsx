@@ -1,40 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 
 export const FloatingContact = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isOverFooter, setIsOverFooter] = useState(false);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const checkOverlap = useCallback(() => {
+    const footer = document.querySelector("footer");
+    if (!footer || !buttonRef.current) return;
+
+    const footerRect = footer.getBoundingClientRect();
+    const btnRect = buttonRef.current.getBoundingClientRect();
+
+    // Si el centro vertical del botón está dentro del footer, activamos estilo oscuro.
+    const btnCenter = btnRect.top + btnRect.height / 2;
+    setIsOverFooter(btnCenter >= footerRect.top && btnCenter <= footerRect.bottom);
+  }, []);
 
   useEffect(() => {
-    // Animación de entrada inicial: aparece después de terminar la carga del Hero (1.2 segundos) para encajar con el flow.
+    // Animación de entrada inicial tras el splash/Hero.
     const initTimer = setTimeout(() => setIsVisible(true), 1200);
 
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const distanceFromBottom = documentHeight - scrollPosition;
-      
-      // Se oculta mucho antes (1100px) para que desaparezca totalmente antes de entrar al tramo final del sitio (Final CTA y Footer).
-      if (distanceFromBottom < 1100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    
-    // Verificar estado inicial
-    handleScroll();
+    window.addEventListener("scroll", checkOverlap, { passive: true });
+    window.addEventListener("resize", checkOverlap, { passive: true });
+    checkOverlap();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", checkOverlap);
+      window.removeEventListener("resize", checkOverlap);
       clearTimeout(initTimer);
     };
-  }, []);
+  }, [checkOverlap]);
 
   const handleClick = () => {
     window.open("https://wa.me/5491173599964?text=Hola,%20quisiera%20más%20información.", "_blank");
@@ -43,7 +44,8 @@ export const FloatingContact = () => {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.div
+          ref={buttonRef}
           className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] flex justify-end pointer-events-none"
           initial={{ opacity: 0, scale: 0.5, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -51,8 +53,8 @@ export const FloatingContact = () => {
           transition={{ type: "spring", stiffness: 350, damping: 25 }}
         >
           <div className="relative flex items-center justify-end h-14">
-            
-            {/* Placa Flotante (Color sólido #160B29 para encajar 100% con la estética de la web) */}
+
+            {/* Placa Flotante */}
             <AnimatePresence>
               {isHovered && (
                 <motion.div
@@ -63,11 +65,11 @@ export const FloatingContact = () => {
                   className="absolute right-[4.5rem] flex items-center shrink-0 pr-3 pointer-events-auto cursor-pointer"
                   onClick={handleClick}
                 >
-                  <div className="bg-[#160B29] border border-white/10 px-5 py-3 rounded-2xl flex flex-col gap-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+                  <div className="bg-[#1A1816] border border-white/10 px-5 py-3 rounded-2xl flex flex-col gap-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
                     <span className="font-sans text-sm text-white font-semibold tracking-wide whitespace-nowrap">
                       Chateá con nosotros
                     </span>
-                    <span className="font-sans text-[11px] text-brand-cream/80 whitespace-nowrap">
+                    <span className="font-sans text-[11px] text-brand-bone/80 whitespace-nowrap">
                       Respuesta inmediata de nuestro equipo.
                     </span>
                   </div>
@@ -75,23 +77,31 @@ export const FloatingContact = () => {
               )}
             </AnimatePresence>
 
-            {/* Pulso súper suave detrás del botón */}
+            {/* Pulso detrás del botón — cambia de color según zona */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="absolute w-full h-full rounded-full border border-brand-yellow/30 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+              <div
+                className={`absolute w-full h-full rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] transition-colors duration-500 ${isOverFooter
+                  ? "border border-white/40"
+                  : "border border-brand-terracotta/30"
+                  }`}
+              />
             </div>
 
-            {/* Botón Flotante Redondeado Original */}
+            {/* Botón Flotante — cambia a oscuro cuando está sobre el footer terracotta */}
             <button
               onClick={handleClick}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className="pointer-events-auto group relative w-14 h-14 bg-brand-yellow text-brand-purple flex items-center justify-center rounded-full transition-all duration-300 hover:scale-[1.05] overflow-hidden shrink-0 shadow-[0_4px_20px_rgba(244,180,0,0.3)]"
+              className={`pointer-events-auto group relative w-14 h-14 text-white flex items-center justify-center rounded-full transition-all duration-500 hover:scale-[1.05] cursor-pointer overflow-hidden shrink-0 ${isOverFooter
+                ? "bg-[#231F1E] shadow-[0_4px_25px_rgba(0,0,0,0.5)] ring-1 ring-white/15"
+                : "bg-brand-terracotta shadow-[0_4px_20px_rgba(201,82,59,0.3)]"
+                }`}
             >
-              {/* Brillo en diagonal "Skew Effect" en hover */}
+              {/* Brillo diagonal en hover */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 -translate-x-full group-hover:animate-[shimmer_0.6s_ease-in-out_forwards]" />
-              
-              <MessageCircle 
-                className="w-6 h-6 text-brand-purple relative z-10 transition-transform duration-300 group-hover:scale-110" 
+
+              <MessageCircle
+                className="w-6 h-6 text-white relative z-10 transition-transform duration-300 group-hover:scale-110"
                 strokeWidth={2.5}
               />
             </button>

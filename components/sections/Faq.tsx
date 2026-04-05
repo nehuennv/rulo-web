@@ -40,19 +40,19 @@ const AccordionItem = ({
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
       className={`group relative overflow-hidden rounded-xl border transition-all duration-300 transform-gpu ${isOpen
-          ? "bg-white/[0.03] border-brand-yellow/30 shadow-[0_0_30px_rgba(244,180,0,0.05)]"
+          ? "bg-white/[0.03] border-brand-terracotta/30 shadow-[0_0_30px_rgba(201,82,59,0.05)]"
           : "bg-white/[0.015] border-white/5 lg:hover:bg-white/[0.02] lg:hover:border-white/10"
         }`}
     >
       <button
         onClick={onClick}
-        className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none"
+        className="w-full flex items-center justify-between p-5 sm:p-8 text-left focus:outline-none"
       >
-        <span className={`font-sans text-lg sm:text-xl font-medium transition-colors duration-300 pr-6 ${isOpen ? "text-brand-yellow" : "text-white group-hover:text-brand-cream"}`}>
+        <span className={`font-sans text-base sm:text-lg md:text-xl font-medium transition-colors duration-300 pr-4 sm:pr-6 ${isOpen ? "text-brand-terracotta" : "text-white group-hover:text-brand-bone"}`}>
           {question}
         </span>
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${isOpen ? "bg-brand-yellow border-brand-yellow text-brand-purple rotate-180" : "bg-transparent border-white/20 text-brand-cream/70 group-hover:border-brand-yellow/50 group-hover:text-brand-yellow"}`}>
-          {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+        <div className={`flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${isOpen ? "bg-brand-terracotta border-brand-terracotta text-white rotate-180" : "bg-transparent border-white/20 text-brand-bone/70 group-hover:border-brand-terracotta/50 group-hover:text-brand-terracotta"}`}>
+          {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
         </div>
       </button>
 
@@ -65,8 +65,8 @@ const AccordionItem = ({
             transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
             className="overflow-hidden"
           >
-            <div className="pb-6 sm:pb-8 px-6 sm:px-8 border-t border-white/5">
-              <p className="font-sans text-brand-cream/80 leading-relaxed text-base sm:text-lg mt-4">
+            <div className="pb-5 sm:pb-8 px-5 sm:px-8 border-t border-white/5">
+              <p className="font-sans text-brand-bone/80 leading-relaxed text-sm sm:text-base md:text-lg mt-3 sm:mt-4">
                 {answer}
               </p>
             </div>
@@ -89,7 +89,7 @@ export const Faq = () => {
       question: "¿El bot va a responder estupideces a mis clientes?",
       answer: (
         <>
-          No es un bot conversacional abierto estilo ChatGPT libre. Es un agente de recuperación con <strong className="text-white font-medium">reglas estrictas</strong>. Si el cliente pregunta algo fuera del guion de reserva, el bot se detiene y avisa: <em className="text-brand-yellow not-italic">"Te paso con un vendedor humano del local"</em>.
+          No es un bot conversacional abierto estilo ChatGPT libre. Es un agente de recuperación con <strong className="text-white font-medium">reglas estrictas</strong>. Si el cliente pregunta algo fuera del guion de reserva, el bot se detiene y avisa: <em className="text-brand-terracotta not-italic">&quot;Te paso con un vendedor humano del local&quot;</em>.
         </>
       )
     },
@@ -104,33 +104,33 @@ export const Faq = () => {
   ];
 
   return (
-    <section id="faq" className="relative w-full py-24 lg:py-36  ">
+    <section id="faq" className="relative w-full py-16 sm:py-20 lg:py-36">
 
-      {/* Background ambient light */}
-      <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-brand-yellow/5 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-0 left-[-10%] w-[500px] h-[500px] bg-brand-purple-lightest/10 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      {/* Background ambient light — responsive */}
+      <div className="absolute top-0 right-1/4 w-[clamp(200px,35vw,400px)] h-[clamp(200px,35vw,400px)] bg-brand-terracotta/5 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-0 left-0 w-[clamp(250px,40vw,500px)] h-[clamp(250px,40vw,500px)] bg-brand-dark-lightest/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-5 sm:px-6 lg:px-8">
 
         {/* ----- HEADING ----- */}
-        <div className="flex flex-col items-center text-center w-full mb-16">
+        <div className="flex flex-col items-center text-center w-full mb-10 sm:mb-14 lg:mb-16">
           <motion.div
-            variants={fadeUpVariants} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-            className="flex items-center gap-3 mb-6"
+            variants={fadeUpVariants} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6"
           >
-            <span className="w-8 h-[1px] bg-brand-yellow/50"></span>
-            <span className="font-mono text-xs font-semibold tracking-[0.2em] text-brand-yellow uppercase flex items-center gap-2">
-              <MessageCircleQuestion className="w-3.5 h-3.5" />
+            <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/50"></span>
+            <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-terracotta uppercase flex items-center gap-1.5 sm:gap-2">
+              <MessageCircleQuestion className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
               Matando objeciones
             </span>
-            <span className="w-8 h-[1px] bg-brand-yellow/50"></span>
+            <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/50"></span>
           </motion.div>
 
           <motion.h2
-            variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}
-            className="font-sans text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-8"
+            variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-6 sm:mb-8"
           >
-            Preguntas <span className="font-accent italic text-brand-yellow tracking-normal pr-4">Frecuentes.</span>
+            Preguntas <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">Frecuentes.</span>
           </motion.h2>
         </div>
 

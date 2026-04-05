@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-poppins);
+  --font-sans: var(--font-montserrat);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-poppins);
+  --font-heading: var(--font-montserrat);
   --font-accent: var(--font-accent);
   --font-brand: var(--font-lexend);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -49,13 +49,19 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   
-  --color-brand-purple: #2D0B45;
-  --color-brand-purple-light: #6B21A8;
-  --color-brand-purple-lightest: #9D4EDD;
-  --color-brand-yellow: #F4B400;
-  --color-brand-yellow-light: #ffdf70;
-  --color-brand-yellow-hover: #D9A000;
-  --color-brand-cream: #F5E6BE;
+  /* === PALETA EDITORIAL PREMIUM / BOUTIQUE === */
+  /* Primarios y Fondos (Warm Stone / Dark Earth) */
+  --color-brand-dark: #231F1E;
+  --color-brand-dark-light: #3A3331;
+  --color-brand-dark-lightest: #4F4643;
+
+  /* Acentos de Marca (Brand Terracotta) */
+  --color-brand-terracotta: #C9523B;
+  --color-brand-terracotta-light: #E2735E;
+  --color-brand-terracotta-hover: #B24430;
+
+  /* Neutros y Texto (Brand Bone & Cream) */
+  --color-brand-bone: #E8E3D9;
 }
 
 :root {
@@ -137,4 +143,35 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ===== SCROLLBAR EDITORIAL PREMIUM ===== */
+/* Firefox */
+html, body, * {
+  scrollbar-color: #4F4643 #231F1E !important;
+  scrollbar-width: thin !important;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: #231F1E !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #4F4643 !important;
+  border-radius: 4px !important;
+  border: 2px solid #231F1E !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #C9523B !important;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: #B24430 !important;
 }

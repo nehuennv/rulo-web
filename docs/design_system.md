@@ -22,25 +22,24 @@ El diseño abandonó la típica estética "SaaS plana" integrando una dualidad t
 ---
 
 ## 2. 🎨 Paleta de Colores (`app/globals.css`)
-Los colores se definen mediante el bloque de Tailwind CSS nativo v4 `@theme inline`.
+Los colores se definen mediante el bloque de Tailwind CSS nativo v4 `@theme inline`. La paleta abandona la saturación estridente ("estética tech startup") para adoptar un enfoque **Editorial Premium / Boutique**. Se basa en tonos piedra cálidos, colores hueso y acentos orgánicos que transmiten seguridad, madurez y alto valor comercial.
 
-### Primarios y Fondos (Brand Purple)
-*   `--color-brand-purple` (`#2D0B45`): Color de fondo base de la sección principal. Un morado profundo que simula el vacío oscuro necesario para los contrastes.
-*   `--color-brand-purple-light` (`#6B21A8`): Tono saturado usado para *Radial Glows* ambientales en pantalla.
-*   `--color-brand-purple-lightest` (`#9D4EDD`): Variación brillante y electrónica para iluminaciones secundarias (usado abajo a la izquierda en el hero para rebotar la luz).
+### Primarios y Fondos (Warm Stone / Dark Earth)
+* `--color-brand-dark` (`#231F1E`): Color de fondo base de la sección principal. Un marrón grafito muy oscuro, casi ébano. Absorbe la luz y elimina la fatiga visual del negro absoluto, dando un lienzo cálido y sofisticado.
+* `--color-brand-dark-light` (`#3A3331`): Tono intermedio usado para *Radial Glows* ambientales y fondos de las placas flotantes (Glassmorphism), inyectando una profundidad sutil sin ensuciar la lectura.
+* `--color-brand-dark-lightest` (`#4F4643`): Variación para bordes (`border-white/10` ahora usa este tono) e iluminaciones secundarias estructurales.
 
-### Acentos de Tensión y Marca (Brand Yellow)
-*   `--color-brand-yellow` (`#F4B400`): El amarillo icónico del logo. Usado para CTAs (botones), textos con gradientes y puntos parpadeantes (`animate-ping`).
-*   `--color-brand-yellow-light` (`#ffdf70`): Un amarillo casi blanco. Fundamental para los efectos de gradiente de texto en movimiento (`bg-gradient-to-r`).
-*   `--color-brand-yellow-hover` (`#ffc633`): Oscurecimiento mínimo de hover en botones interactivos.
+### Acentos de Tensión y Marca (Brand Terracotta)
+* `--color-brand-terracotta` (`#C9523B`): El terracota/ladrillo icónico del logo. Es el color de la conversión, maduro pero contundente. Usado estratégicamente para CTAs (botones) y el punto focal parpadeante (`animate-ping`).
+* `--color-brand-terracotta-light` (`#E2735E`): Variación luminosa. Fundamental para los efectos de gradiente de texto en movimiento (`bg-gradient-to-r`) y generar brillos orgánicos en el botón secundario.
+* `--color-brand-terracotta-hover` (`#B24430`): Oscurecimiento sólido para el *hover state* en botones interactivos, dando una respuesta táctil visual pesada y realista.
 
-### Neutros y Texto (Brand Cream & White)
-*   `--color-brand-cream` (`#F5E6BE`): Todo texto secundario, opacado a /80, /60 o /50. Otorga un aura cálida que el clásico texto gris o blanco puro no tiene. Da lujo en vez de simpleza.
-*   `text-white`: El texto en blanco (#FFFFFF) se reserva **puramente** para los enunciados primarios y elementos que deben leerse a golpe de vista.
+### Neutros y Texto (Brand Bone & Cream)
+* `--color-brand-bone` (`#E8E3D9`): Reemplaza al gris clásico. Un color hueso/crema para párrafos y micro-features, opacado a /80 o /60. Es la clave para que la tipografía Playfair (Serif) transmita ese lujo "editorial" en contraste con el fondo oscuro.
+* `text-white` (`#FCFBF8`): El texto principal no es blanco puro (`#FFFFFF`), sino un blanco marfil cálido. Se reserva **puramente** para los enunciados primarios (H1, H2) para evitar el efecto de astigmatismo digital y mantener la elegancia.
 
-### Status Colors (Neones)
-*   `#a0ff6a`: Verde neón / fósforo puro usado exclusivamente en paneles de sistema asíncronos para comunicar **éxito o ganancias financieras** (Ej: "Cobro Exitoso + $1,250.00 USD").
-
+### Status Colors (Organic Indicators)
+* `#52B788`: Un verde salvia/mate oscuro, reemplazando al verde neón. Usado exclusivamente en paneles de sistema asíncronos para comunicar **éxito o ganancias financieras** (Ej: "Cobro Exitoso + $1.200.000 ARS"). Transmite el mensaje de éxito ("dinero") sin romper la armonía boutique de la página.
 ---
 
 ## 3. 🧩 Estructuras Visuales & Patrones de UI
