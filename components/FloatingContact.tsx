@@ -54,7 +54,7 @@ export const FloatingContact = () => {
         >
           <div className="relative flex items-center justify-end h-14">
 
-            {/* Placa Flotante */}
+            {/* Placa Flotante (Desktop ONLY) */}
             <AnimatePresence>
               {isHovered && (
                 <motion.div
@@ -62,7 +62,7 @@ export const FloatingContact = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-[4.5rem] flex items-center shrink-0 pr-3 pointer-events-auto cursor-pointer"
+                  className="absolute right-[4.5rem] hidden md:flex items-center shrink-0 pr-3 pointer-events-auto cursor-pointer"
                   onClick={handleClick}
                 >
                   <div className="bg-[#1A1816] border border-white/10 px-5 py-3 rounded-2xl flex flex-col gap-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
@@ -77,10 +77,11 @@ export const FloatingContact = () => {
               )}
             </AnimatePresence>
 
+
             {/* Pulso detrás del botón — cambia de color según zona */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
-                className={`absolute w-full h-full rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] transition-colors duration-500 ${isOverFooter
+                className={`absolute w-full h-full rounded-full animate-[ping_2.25s_cubic-bezier(0,0,0.2,1)_infinite] transition-colors duration-500 ${isOverFooter
                   ? "border border-white/40"
                   : "border border-brand-terracotta/30"
                   }`}
@@ -92,18 +93,18 @@ export const FloatingContact = () => {
               onClick={handleClick}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className={`pointer-events-auto group relative w-14 h-14 text-white flex items-center justify-center rounded-full transition-all duration-500 hover:scale-[1.05] cursor-pointer overflow-hidden shrink-0 ${isOverFooter
+              className={`pointer-events-auto group relative w-14 h-14 text-white flex items-center justify-center rounded-full transition-all duration-500 lg:hover:scale-[1.05] cursor-pointer overflow-hidden shrink-0 ${isOverFooter
                 ? "bg-[#231F1E] shadow-[0_4px_25px_rgba(0,0,0,0.5)] ring-1 ring-white/15"
                 : "bg-brand-terracotta shadow-[0_4px_20px_rgba(201,82,59,0.3)]"
                 }`}
             >
-              {/* Brillo diagonal en hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 -translate-x-full group-hover:animate-[shimmer_0.6s_ease-in-out_forwards]" />
-
+              {/* Brillo diagonal en hover (Desktop only) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 -translate-x-full lg:group-hover:animate-[shimmer_0.6s_ease-in-out_forwards]" />
               <MessageCircle
-                className="w-6 h-6 text-white relative z-10 transition-transform duration-300 group-hover:scale-110"
+                className="w-6 h-6 text-white relative z-10 transition-transform duration-300 lg:group-hover:scale-110"
                 strokeWidth={2.5}
               />
+
             </button>
           </div>
         </motion.div>

@@ -62,6 +62,9 @@
 
   /* Neutros y Texto (Brand Bone & Cream) */
   --color-brand-bone: #E8E3D9;
+
+  /* Éxito y Recuperación (Brand Success) */
+  --color-brand-success: #52B788;
 }
 
 :root {

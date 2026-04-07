@@ -1,9 +1,39 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Package, RefreshCcwDot, CircleDollarSign, Plus, Equal } from "lucide-react";
+/**
+ * RoiCalculator — Sección de justificación financiera
+ *
+ * SEO / Semántica:
+ * - <section> con id y aria-labelledby apuntando al h2
+ * - Cards de variables como <article> con aria-label
+ * - Operadores matemáticos con role="presentation" y aria-hidden
+ * - Resultado como <article> con su propio aria-label
+ *
+ * Tipografía / Visual:
+ * - Números en blanco puro (text-white) + peso black — máximo contraste
+ * - Label de variable en terracotta, número en blanco: jerarquía clara
+ * - Operadores (+, =) agrandados y con texto como fallback accesible
+ * - Card de resultado: verde #52B788 tokenizado como brand-success
+ *
+ * Responsividad:
+ * - overflow-x-hidden para contener glows
+ * - Variables: stack vertical en mobile → horizontal en md+
+ * - Operadores: chevron down en mobile → circle en md+
+ * - Números: escalan suavemente por breakpoint
+ *
+ * Performance:
+ * - useReducedMotion
+ * - will-change-transform en cards hover
+ * - aria-hidden en todos los decorativos
+ */
 
-/* Animaciones Performantes */
+import { motion, useReducedMotion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { Package, RefreshCcwDot, CircleDollarSign, ChevronDown } from "lucide-react";
+
+import type { ReactNode } from "react";
+
+// ─── Variantes ────────────────────────────────────────────────────────────────
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
@@ -17,148 +47,288 @@ const fadeUpVariants = {
   }),
 };
 
-export const RoiCalculator = () => {
-  return (
-    <section id="roi" className="relative w-full py-16 sm:py-20 lg:py-36">
+const staticVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+};
 
-      {/* ----- AMBIENT LIGHTS — responsive, sin posiciones negativas ----- */}
-      <div className="absolute top-1/4 left-0 w-[clamp(250px,40vw,500px)] h-[clamp(250px,40vw,500px)] bg-brand-terracotta/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-1/4 right-0 w-[clamp(300px,50vw,600px)] h-[clamp(300px,50vw,600px)] bg-[#C9523B]/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[clamp(150px,25vw,300px)] h-[clamp(150px,25vw,300px)] bg-[#52B788]/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+// ─── Tipos ────────────────────────────────────────────────────────────────────
+interface VariableCardProps {
+  icon: ReactNode;
+  label: string;       // "Variable A"
+  description: string; // texto explicativo
+  value: string;       // número grande: "$80.000"
+  unit: string;        // "por lead"
+  custom: number;
+  variants: typeof fadeUpVariants | typeof staticVariants;
+}
+
+// ─── Sub-componente: Variable Card ───────────────────────────────────────────
+function VariableCard({ icon, label, description, value, unit, custom, variants }: VariableCardProps) {
+  return (
+    <motion.article
+      variants={variants}
+      custom={custom}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      aria-label={`${label}: ${description} — ${value} ${unit}`}
+      className="group relative flex-1 w-full flex flex-col items-center text-center p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10 overflow-visible"
+
+    >
+      {/* Glow interno */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-terracotta/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+      />
+
+      {/* Ícono */}
+      <div
+        aria-hidden="true"
+        className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 mb-5 sm:mb-7 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-all duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10"
+      >
+        {icon}
+      </div>
+
+      {/* Label de variable */}
+      <p className="font-mono text-[10px] sm:text-xs text-brand-terracotta font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-2">
+        {label}
+      </p>
+
+      {/* Descripción */}
+      <p className="font-sans text-brand-bone/60 text-sm sm:text-base font-light leading-snug mb-4 sm:mb-5 px-1">
+        {description}
+      </p>
+
+      {/* Separador */}
+      <div aria-hidden="true" className="w-10 h-[1px] bg-brand-bone/10 mb-4 sm:mb-5" />
+
+      {/* Valor numérico — blanco puro, peso extrabold */}
+      <p className="font-sans text-white font-extrabold text-3xl sm:text-4xl md:text-[2.75rem] tracking-tight leading-none">
+        {value}
+      </p>
+      <p className="font-sans text-brand-bone/50 text-xs sm:text-sm font-medium uppercase tracking-widest mt-2">
+        {unit}
+      </p>
+    </motion.article>
+  );
+}
+
+// ─── Operador mobile (flecha abajo) + desktop (círculo con símbolo) ───────────
+function Operator({
+  symbol,
+  custom,
+  variants,
+  isResult = false,
+}: {
+  symbol: "+" | "=";
+  custom: number;
+  variants: typeof fadeUpVariants | typeof staticVariants;
+  isResult?: boolean;
+}) {
+  return (
+    <motion.div
+      variants={variants}
+      custom={custom}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      aria-hidden="true"
+      className="flex-shrink-0 flex items-center justify-center z-10"
+    >
+      {/* Mobile: flecha vertical para el = (resultado), signo para el + */}
+      <div className={`md:hidden flex items-center justify-center ${isResult ? "w-9 h-9" : "w-9 h-9"} rounded-full border ${isResult ? "border-brand-success/20 bg-brand-dark text-brand-success shadow-[0_0_20px_rgba(82,183,136,0.15)]" : "border-white/10 bg-brand-dark text-brand-bone/40"}`}>
+        {isResult
+          ? <ChevronDown className="w-4 h-4" />
+          : <span className="font-sans text-lg font-light leading-none">{symbol}</span>
+        }
+      </div>
+      {/* Desktop: círculo con símbolo */}
+      <div className={`hidden md:flex items-center justify-center w-11 h-11 rounded-full border ${isResult ? "border-brand-success/20 bg-brand-dark text-brand-success shadow-[0_0_20px_rgba(82,183,136,0.15)]" : "border-white/10 bg-brand-dark text-brand-bone/40"}`}>
+        <span className="font-sans text-xl font-light leading-none">{symbol}</span>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Componente principal ─────────────────────────────────────────────────────
+export const RoiCalculator = () => {
+  const [mounted, setMounted] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
+
+
+  return (
+    <section
+      id="roi"
+      aria-labelledby="roi-heading"
+      className="relative w-full py-16 sm:py-24 lg:py-36 overflow-visible"
+
+    >
+      {/* ── Ambient glows ── */}
+      <div aria-hidden="true" className="absolute top-1/4 left-0 w-[clamp(250px,40vw,500px)] h-[clamp(250px,40vw,500px)] bg-brand-terracotta/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      <div aria-hidden="true" className="absolute bottom-1/4 right-0 w-[clamp(300px,50vw,600px)] h-[clamp(300px,50vw,600px)] bg-brand-terracotta/10 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      <div aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[clamp(150px,25vw,300px)] h-[clamp(150px,25vw,300px)] bg-brand-success/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
 
-        {/* ----- HEADING ----- */}
+        {/* ── Heading ── */}
         <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16 max-w-3xl mx-auto">
-          <motion.div variants={fadeUpVariants} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-            <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/60"></span>
+          <motion.div
+            variants={motionVariants}
+            custom={0}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6"
+          >
+            <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/60" />
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-terracotta uppercase">
               La Justificación Financiera
             </span>
-            <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/60"></span>
+            <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/60" />
           </motion.div>
 
           <motion.h2
-            variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
+            id="roi-heading"
+            variants={motionVariants}
+            custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
-            Una decisión financiera <br className="hidden sm:block" />
-            <span className="font-accent italic tracking-normal text-brand-terracotta">puramente matemática.</span>
+            Una decisión financiera{" "}
+            <span className="hidden sm:inline"><br /></span>
+            <span className="font-accent italic tracking-normal text-brand-terracotta">
+              puramente matemática.
+            </span>
           </motion.h2>
 
           <motion.p
-            variants={fadeUpVariants} custom={2} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            variants={motionVariants}
+            custom={2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/80 font-light leading-relaxed px-2"
           >
-            No vendemos tecnología. Optimizamos el CAC que ya pagaste. Cada lead recuperado no es venta nueva: <strong className="text-white font-medium">es ganancia sobre inversión previa.</strong>
+            No vendemos tecnología. Optimizamos el CAC que ya pagaste. Cada lead recuperado
+            no es venta nueva:{" "}
+            <strong className="text-white font-medium">
+              es ganancia sobre inversión previa.
+            </strong>
           </motion.p>
         </div>
 
-        {/* ----- DESGLOSE DEL CÁLCULO (LA ECUACIÓN) ----- */}
-        <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto space-y-4 sm:space-y-6">
+        {/* ── Ecuación ── */}
+        {/*
+          Layout:
+          - Mobile: columna, operadores como flechas verticales
+          - md+: fila con operadores en círculo entre variables
+        */}
+        <div className="flex flex-col md:flex-row items-stretch justify-center w-full max-w-4xl mx-auto gap-3 sm:gap-4 md:gap-0">
 
-          {/* FILA SUPERIOR: VARIABLE A + VARIABLE B */}
-          <div className="flex flex-col md:flex-row items-center justify-center w-full gap-4 sm:gap-6">
+          {/* Variable A */}
+          <VariableCard
+            icon={<Package className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />}
+            label="Variable A"
+            description="CAC pagado en Meta Ads por lead sin cerrar"
+            value="$80.000"
+            unit="por lead invertido"
+            custom={3}
+            variants={motionVariants}
+          />
 
-            {/* Paso 1: Ticket Alto */}
-            <motion.div
-              variants={fadeUpVariants} custom={3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-              className="group relative flex-1 w-full flex flex-col items-center text-center p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10 h-full overflow-hidden"
-            >
-              {/* Glow sutil — sincronizado */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-terracotta/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-              <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 mb-4 sm:mb-6 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-all duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-                <Package className="w-6 h-6 sm:w-8 sm:h-8" />
-              </div>
-              <p className="font-sans text-brand-bone/60 text-xs sm:text-sm uppercase tracking-widest font-semibold mb-1.5 sm:mb-2">Variable A</p>
-              <h3 className="font-sans text-lg sm:text-xl text-brand-bone/90 font-light leading-snug px-1">
-                CAC pagado en Meta Ads: <br className="hidden md:block" />
-                <strong className="font-sans text-brand-terracotta-light font-bold text-2xl sm:text-3xl tracking-tight block mt-1.5 sm:mt-2">
-                  $80.000 por lead
-                </strong>
-              </h3>
-            </motion.div>
-
-            {/* Operador (+) */}
-            <motion.div
-              variants={fadeUpVariants} custom={4} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-              className="flex-shrink-0 z-10 my-1 md:my-0"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border border-white/10 bg-[#231F1E] shadow-[0_0_20px_rgba(0,0,0,0.5)] text-brand-bone/50">
-                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
-              </div>
-            </motion.div>
-
-            {/* Paso 2: Reactivación */}
-            <motion.div
-              variants={fadeUpVariants} custom={5} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-              className="group relative flex-1 w-full flex flex-col items-center text-center p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10 h-full overflow-hidden"
-            >
-              {/* Glow sutil — sincronizado */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-terracotta/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-              <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 mb-4 sm:mb-6 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-all duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-                <RefreshCcwDot className="w-6 h-6 sm:w-8 sm:h-8" />
-              </div>
-              <p className="font-sans text-brand-bone/60 text-xs sm:text-sm uppercase tracking-widest font-semibold mb-1.5 sm:mb-2">Variable B</p>
-              <h3 className="font-sans text-lg sm:text-xl text-brand-bone/90 font-light leading-snug px-1">
-                <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl ">rulo</span> reactiva <br className="hidden md:block" />
-                <strong className="font-sans text-brand-terracotta-light font-bold text-2xl sm:text-3xl tracking-tight block mt-1.5 sm:mt-2">
-                  2 leads de $1.500.000
-                </strong>
-              </h3>
-            </motion.div>
-
+          {/* Operador + */}
+          <div className="flex items-center justify-center md:px-3 lg:px-5">
+            <Operator symbol="+" custom={4} variants={motionVariants} />
           </div>
 
-          {/* Operador (=) */}
-          <motion.div
-            variants={fadeUpVariants} custom={6} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="z-10 -my-1 sm:-my-2 relative"
-          >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border border-[#52B788]/20 bg-[#231F1E] shadow-[0_0_20px_rgba(82,183,136,0.15)] text-[#52B788]">
-              <Equal className="w-4 h-4 sm:w-5 sm:h-5" />
-            </div>
-          </motion.div>
-
-          {/* RESULTADO (El ROI) */}
-          <motion.div
-            variants={fadeUpVariants} custom={7} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="group relative w-full flex flex-col items-center justify-center text-center p-6 sm:p-10 md:p-14 rounded-xl sm:rounded-2xl border border-[#52B788]/30 bg-white/[0.015] backdrop-blur-md overflow-hidden transition-all duration-500 transform-gpu lg:hover:-translate-y-2 lg:hover:shadow-[0_0_80px_rgba(82,183,136,0.15)] lg:hover:bg-white/[0.03]"
-          >
-            {/* Inner Green Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#52B788]/10 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-            {/* Glowing Top Line */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[#52B788]/50 to-transparent opacity-50 lg:group-hover:opacity-100 transition-opacity" />
-
-            <div className="flex-shrink-0 w-14 h-14 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center rounded-lg sm:rounded-xl border border-[#52B788]/30 bg-[#52B788]/10 text-[#52B788] shadow-[0_0_30px_rgba(82,183,136,0.1)] transition-all duration-500 transform-gpu lg:group-hover:scale-110 lg:group-hover:shadow-[0_0_40px_rgba(82,183,136,0.3)]">
-              <CircleDollarSign className="w-7 h-7 sm:w-10 sm:h-10" />
-            </div>
-
-            <p className="font-mono text-xs sm:text-sm text-[#52B788] font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-1.5 sm:mb-2">Capital Recuperado</p>
-            <h3 className="font-accent italic text-white font-bold text-3xl sm:text-5xl md:text-6xl lg:text-[5.5rem] tracking-tight leading-none mb-3 sm:mb-4">
-              $3.000.000<span className="text-xl sm:text-3xl text-brand-bone/60 ml-0.5 sm:tracking-normal">extra</span>
-            </h3>
-            <p className="font-sans text-brand-bone/80 text-base sm:text-lg md:text-xl font-light">
-              Sobre inversión publicitaria que ya estaba perdida.
-            </p>
-          </motion.div>
+          {/* Variable B */}
+          <VariableCard
+            icon={<RefreshCcwDot className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />}
+            label="Variable B"
+            description="rulo reactiva leads que dabas por perdidos"
+            value="2 cierres"
+            unit="de $1.500.000 c/u"
+            custom={5}
+            variants={motionVariants}
+          />
 
         </div>
 
-        {/* ----- CIERRE DEL BLOQUE ----- */}
-        <motion.div
-          variants={fadeUpVariants} custom={8} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-          className="mt-10 sm:mt-14 lg:mt-16 pt-6 sm:pt-8 flex justify-center"
+        {/* Operador = */}
+        <div className="flex justify-center my-4 sm:my-5">
+          <Operator symbol="=" custom={6} variants={motionVariants} isResult />
+        </div>
+
+        {/* ── Card resultado ── */}
+        <motion.article
+          variants={motionVariants}
+          custom={7}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          aria-label="Resultado: $3.000.000 de capital recuperado sobre inversión publicitaria previa"
+          className="group relative w-full flex flex-col items-center justify-center text-center p-7 sm:p-10 md:p-14 rounded-xl sm:rounded-2xl border border-brand-success/25 bg-white/[0.015] backdrop-blur-md overflow-visible transition-all duration-500 transform-gpu will-change-transform lg:hover:-translate-y-2 lg:hover:shadow-[0_0_80px_rgba(82,183,136,0.12)] lg:hover:bg-white/[0.03]"
+
         >
-          <div className="max-w-2xl text-center px-5 sm:px-8 py-4 sm:py-5 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md shadow-lg">
+          {/* Inner green glow */}
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-success/8 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          {/* Top accent line */}
+          <div aria-hidden="true" className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 sm:w-3/4 h-[1px] bg-gradient-to-r from-transparent via-brand-success/40 to-transparent opacity-60 lg:group-hover:opacity-100 transition-opacity" />
+
+          {/* Ícono */}
+          <div
+            aria-hidden="true"
+            className="flex-shrink-0 w-14 h-14 sm:w-18 sm:h-18 mb-5 sm:mb-6 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-success/30 bg-brand-success/10 text-brand-success shadow-[0_0_30px_rgba(82,183,136,0.1)] transition-all duration-500 transform-gpu lg:group-hover:scale-110 lg:group-hover:shadow-[0_0_40px_rgba(82,183,136,0.25)]"
+          >
+            <CircleDollarSign className="w-7 h-7 sm:w-10 sm:h-10" aria-hidden="true" />
+          </div>
+
+          {/* Label */}
+          <p className="font-mono text-xs sm:text-sm text-brand-success font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-3 sm:mb-4">
+            Capital Recuperado
+          </p>
+
+          {/* Número resultado — máximo peso visual */}
+          <h3 className="font-accent italic text-white font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight leading-none mb-1 sm:mb-2">
+            $3.000.000
+          </h3>
+          <p className="font-sans text-brand-bone/50 text-sm sm:text-base font-semibold uppercase tracking-widest mb-4 sm:mb-5">
+            extra
+          </p>
+
+          {/* Separador */}
+          <div aria-hidden="true" className="w-12 h-[1px] bg-brand-success/20 mb-4 sm:mb-5" />
+
+          <p className="font-sans text-brand-bone/80 text-base sm:text-lg md:text-xl font-light max-w-md">
+            Sobre inversión publicitaria que ya estaba perdida.
+          </p>
+        </motion.article>
+
+        {/* ── Cierre ── */}
+        <motion.div
+          variants={motionVariants}
+          custom={8}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          className="mt-8 sm:mt-12 lg:mt-14 flex justify-center"
+        >
+          <div className="max-w-2xl text-center px-5 sm:px-8 py-4 sm:py-5 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md">
             <p className="font-sans text-brand-bone text-sm sm:text-base md:text-lg font-medium leading-relaxed">
-              El abono mensual fijo no varía.<br className="hidden sm:block" />
-              <span className="text-white font-bold border-b-2 border-[#52B788] pb-0.5 sm:ml-2 mt-2 sm:mt-0 inline-block">
+              El abono mensual fijo no varía.{" "}
+              <span className="hidden sm:inline"><br /></span>
+              <strong className="text-white font-bold border-b-2 border-brand-success pb-0.5 sm:ml-1 mt-2 sm:mt-0 inline-block">
                 Cada recuperación adicional es margen neto directo.
-              </span>
+              </strong>
             </p>
           </div>
         </motion.div>

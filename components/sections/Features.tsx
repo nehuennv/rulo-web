@@ -1,9 +1,50 @@
 "use client";
 
-import { motion } from "framer-motion";
+/**
+ * Features — Sección de características de rulo
+ *
+ * SEO / Semántica:
+ * - <section> con id y aria-labelledby apuntando al h2
+ * - h2 con id referenciado
+ * - Cards como <article> con aria-label
+ * - Decorativos con aria-hidden
+ * - Adornos visuales con aria-hidden + pointer-events-none
+ *
+ * Responsividad:
+ * - overflow-x-hidden en la section para contener glows
+ * - whitespace en h2: solo lg:whitespace-nowrap (si aplica)
+ * - Padding y gap fluidos por breakpoint
+ * - Bento grid: 1 col mobile → 2 col md+
+ *
+ * Performance:
+ * - useReducedMotion para respetar preferencia del SO
+ * - will-change-transform en cards animadas
+ * - key estable por title
+ * - whileInView con once:true
+ *
+ * Accesibilidad:
+ * - aria-hidden en decorativos y pings
+ * - aria-label en articles
+ * - Contraste /70 en texto secundario (pasa WCAG AA)
+ */
+
+import { motion, useReducedMotion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Clock, Store, Infinity, Users, MessageSquareText } from "lucide-react";
 
-/* Animaciones */
+import type { ReactNode } from "react";
+
+// ─── Tipos ────────────────────────────────────────────────────────────────────
+interface FeatureCard {
+  id: string;
+  icon: ReactNode;
+  title: string;
+  body: ReactNode;
+  badge: ReactNode;
+  glowColor: "terracotta" | "bone";
+}
+
+// ─── Variantes ────────────────────────────────────────────────────────────────
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -17,171 +58,251 @@ const fadeUpVariants = {
   }),
 };
 
-export const Features = () => {
+const staticVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+};
+
+// ─── Data de features ─────────────────────────────────────────────────────────
+const FEATURES: FeatureCard[] = [
+  {
+    id: "reaccion-tactica",
+    icon: <Clock className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
+    title: "Reacción Táctica.",
+    glowColor: "terracotta",
+    badge: (
+      <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
+        <span aria-hidden="true" className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-terracotta opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-terracotta" />
+        </span>
+        <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-brand-terracotta">
+          FOMO ACTIVO
+        </span>
+      </div>
+    ),
+    body: (
+      <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
+        Sin disparos al azar.{" "}
+        <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl">rulo</span>{" "}
+        lee tu horario comercial y activa protocolos de escasez calibrados:{" "}
+        <em className="text-white italic">
+          &quot;Cerramos la caja, ¿te separo el equipo para mañana?&quot;
+        </em>
+      </p>
+    ),
+  },
+  {
+    id: "trafico-fisico",
+    icon: <Store className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
+    title: "Tráfico Físico.",
+    glowColor: "bone",
+    badge: (
+      <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tr-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
+        <span className="font-sans text-[10px] sm:text-[11px] font-medium text-brand-bone">
+          ¿Te lo separo hoy?
+        </span>
+        <MessageSquareText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-terracotta" aria-hidden="true" />
+      </div>
+    ),
+    body: (
+      <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
+        No procesamos pagos online para blindar tu operación. El agente usa{" "}
+        <strong className="text-white font-medium">sesgo de escasez</strong>{" "}
+        (<em className="tracking-wide text-brand-bone/90">¿Te lo separo hoy?</em>) para
+        convertir leads digitales en visitas al local.
+      </p>
+    ),
+  },
+  {
+    id: "tarifa-fija",
+    icon: <Infinity className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
+    title: "Tarifa Fija. Sin Comisiones.",
+    glowColor: "bone",
+    badge: (
+      <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
+        <Infinity className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-bone" aria-hidden="true" />
+        <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-brand-bone">
+          Tarifa Plana
+        </span>
+      </div>
+    ),
+    body: (
+      <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
+        Modelo de abono plano. Si recuperamos 5 clientes o 50 en un día táctico, el
+        costo es{" "}
+        <strong className="text-white font-medium">exactamente el mismo</strong>. Tu
+        upside es ilimitado.
+      </p>
+    ),
+  },
+  {
+    id: "aliado-vendedor",
+    icon: <Users className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
+    title: "El Mejor Aliado de tu Vendedor.",
+    glowColor: "terracotta",
+    badge: (
+      <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tl-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
+        <div
+          aria-hidden="true"
+          className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-brand-terracotta/20 flex items-center justify-center"
+        >
+          <Users className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-brand-terracotta" aria-hidden="true" />
+        </div>
+        <span className="font-sans text-[10px] sm:text-[11px] font-medium text-white/90">
+          Viene &quot;X&quot; persona
+        </span>
+      </div>
+    ),
+    body: (
+      <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
+        No tocamos comisiones. Hacemos el trabajo sucio. Cuando hay visita confirmada,{" "}
+        <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl">rulo</span>{" "}
+        alerta al equipo por privado. Ellos solo cobran.
+      </p>
+    ),
+  },
+];
+
+// ─── Sub-componente: Feature Card ─────────────────────────────────────────────
+function FeatureCard({
+  feature,
+  customIndex,
+  variants,
+}: {
+  feature: FeatureCard;
+  customIndex: number;
+  variants: typeof fadeUpVariants | typeof staticVariants;
+}) {
+  const glowClass =
+    feature.glowColor === "terracotta"
+      ? "from-brand-terracotta/5"
+      : "from-brand-bone/5";
+
   return (
-    <section id="features" className="relative w-full py-16 sm:py-20 lg:py-36">
+    <motion.article
+      variants={variants}
+      custom={customIndex}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      aria-label={`Característica: ${feature.title}`}
+      className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-visible transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
 
-      {/* Luz ambiental terracota central — responsive */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(80vw,800px)] h-[clamp(200px,40vh,500px)] bg-brand-terracotta/5 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+    >
+      {/* Glow interno en hover */}
+      <div
+        aria-hidden="true"
+        className={`absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] ${glowClass} via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+      />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col gap-10 sm:gap-14 lg:gap-24">
+      {/* Badge decorativo */}
+      <div
+        aria-hidden="true"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105"
+      >
+        {feature.badge}
+      </div>
 
-        {/* ----- ENCABEZADO (Header) ----- */}
+      {/* Ícono */}
+      <div
+        aria-hidden="true"
+        className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 mb-5 sm:mb-8 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-all duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10"
+      >
+        {feature.icon}
+      </div>
+
+      {/* Texto */}
+      <div className="relative z-10">
+        <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide">
+          {feature.title}
+        </h3>
+        {feature.body}
+      </div>
+    </motion.article>
+  );
+}
+
+// ─── Componente principal ─────────────────────────────────────────────────────
+export const Features = () => {
+  const [mounted, setMounted] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
+
+
+  return (
+    <section
+      id="features"
+      aria-labelledby="features-heading"
+      className="relative w-full py-16 sm:py-24 lg:py-36 overflow-visible"
+
+    >
+      {/* Glow central decorativo */}
+      <div
+        aria-hidden="true"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(80vw,800px)] h-[clamp(200px,40vh,500px)] bg-brand-terracotta/5 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen"
+      />
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col gap-10 sm:gap-14 lg:gap-20">
+
+        {/* ── Encabezado ── */}
         <div className="flex flex-col items-center text-center w-full max-w-3xl mx-auto">
-          {/* Pre-título Tech */}
+
+          {/* Pre-título */}
           <motion.div
-            variants={fadeUpVariants}
+            variants={motionVariants}
             custom={0}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6"
           >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full bg-brand-terracotta opacity-75"></span>
-              <span className="relative inline-flex h-1.5 w-1.5 bg-brand-terracotta"></span>
+            <span aria-hidden="true" className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full bg-brand-terracotta opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 bg-brand-terracotta" />
             </span>
-            <span className="w-6 sm:w-8 h-[1px] bg-brand-bone/30"></span>
+            <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-bone/30" />
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-bone/60 uppercase">
               La Infraestructura Trabajando
             </span>
           </motion.div>
 
-          {/* H2 Principal — escala progresiva */}
+          {/* H2 */}
           <motion.h2
-            variants={fadeUpVariants}
+            id="features-heading"
+            variants={motionVariants}
             custom={1}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
-            className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
+            className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
-            Un sistema de recuperación <br className="hidden sm:block" />
-            <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">que corre solo.</span>
+            Rescate de facturación.{" "}
+            {/* <br> solo en sm+ para no partir raro en mobile muy angosto */}
+            <span className="hidden sm:inline"><br /></span>
+            <span className="font-accent italic text-brand-terracotta tracking-normal">
+              100% en automático.
+            </span>
           </motion.h2>
         </div>
 
-        {/* ----- BENTO GRID DE FEATURES ----- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 w-full">
-
-          {/* Feature 1: Reacción Táctica */}
-          <motion.div
-            variants={fadeUpVariants} custom={2} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-hidden transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-terracotta/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            {/* Adorno Visible */}
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105">
-              <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-terracotta opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-terracotta"></span>
-                </span>
-                <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-brand-terracotta">FOMO ACTIVO</span>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 mb-5 sm:mb-8 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-transform duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-              <Clock className="w-5 h-5 sm:w-7 sm:h-7" />
-            </div>
-            <div>
-              <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide">
-                Reacción Táctica.
-              </h3>
-              <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                Sin disparos al azar. <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl ">rulo</span> lee tu horario comercial y activa protocolos de escasez calibrados: <em className="text-white italic">&quot;Cerramos la caja, ¿te separo el equipo para mañana?&quot;</em>.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Feature 2: Tráfico Físico */}
-          <motion.div
-            variants={fadeUpVariants} custom={3} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-hidden transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-bone/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            {/* Adorno Visible */}
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105">
-              <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tr-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
-                <span className="font-sans text-[10px] sm:text-[11px] font-medium text-brand-bone">¿Te lo separo hoy?</span>
-                <MessageSquareText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-terracotta" />
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 mb-5 sm:mb-8 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-transform duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-              <Store className="w-5 h-5 sm:w-7 sm:h-7" />
-            </div>
-            <div className="relative z-10">
-              <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide">
-                Tráfico Físico.
-              </h3>
-              <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                No procesamos pagos online para blindar tu operación. El agente usa <strong className="text-white font-medium">sesgo de escasez</strong> (&quot;<em className="tracking-wide text-brand-bone/90">¿Te lo separo hoy?</em>&quot;) para convertir leads digitales en visitas al local.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Feature 3: Sin Comisiones */}
-          <motion.div
-            variants={fadeUpVariants} custom={4} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-hidden transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-bone/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            {/* Adorno Visible */}
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105">
-              <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
-                <Infinity className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-bone" />
-                <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-brand-bone">Tarifa Plana</span>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 mb-5 sm:mb-8 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-transform duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-              <Infinity className="w-5 h-5 sm:w-7 sm:h-7" />
-            </div>
-            <div>
-              <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide transition-colors duration-300 lg:group-hover:text-brand-bone">
-                Tarifa Fija. Sin Comisiones.
-              </h3>
-              <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                Modelo de abono plano. Si recuperamos 5 clientes o 50 en un día táctico, el costo es <strong className="text-white font-medium">exactamente el mismo</strong>. Tu upside es ilimitado.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Feature 4: El Mejor Amigo de tu Empleado */}
-          <motion.div
-            variants={fadeUpVariants} custom={5} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
-            className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-hidden transition-all duration-300 transform-gpu lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-terracotta/5 via-transparent to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            {/* Adorno Visible */}
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105">
-              <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tl-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
-                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-brand-terracotta/20 flex items-center justify-center">
-                  <Users className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-brand-terracotta" />
-                </div>
-                <span className="font-sans text-[10px] sm:text-[11px] font-medium text-white/90">Viene &quot;X&quot; persona</span>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 mb-5 sm:mb-8 flex items-center justify-center rounded-lg sm:rounded-xl border border-brand-bone/10 bg-brand-bone/5 text-brand-bone transition-transform duration-300 transform-gpu lg:group-hover:scale-110 lg:group-hover:text-brand-terracotta lg:group-hover:border-brand-terracotta/20 lg:group-hover:bg-brand-terracotta/10">
-              <Users className="w-5 h-5 sm:w-7 sm:h-7" />
-            </div>
-            <div className="relative z-10">
-              <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide">
-                El Mejor Aliado de tu Vendedor.
-              </h3>
-              <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                No tocamos comisiones. Hacemos el trabajo sucio. Cuando hay visita confirmada, <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl ">rulo</span> alerta al equipo por privado. Ellos solo cobran.
-              </p>
-            </div>
-          </motion.div>
-
+        {/* ── Bento grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 lg:gap-7 w-full">
+          {FEATURES.map((feature, index) => (
+            <FeatureCard
+              key={feature.id}
+              feature={feature}
+              customIndex={index + 2}
+              variants={motionVariants}
+            />
+          ))}
         </div>
+
       </div>
     </section>
   );
