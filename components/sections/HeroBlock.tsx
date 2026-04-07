@@ -4,6 +4,8 @@ import { Bot, TrendingUp, ShieldCheck, ArrowRight, ArrowDown } from "lucide-reac
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSplashDone } from "@/components/SplashScreen";
+import { useEffect } from "react";
+import { getCalApi } from "@calcom/embed-react";
 
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -21,6 +23,21 @@ const fadeUpVariants = {
 export function HeroBlock() {
   const splashDone = useSplashDone();
   const animState = splashDone ? "visible" : "hidden";
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi({ namespace: "30min" });
+      cal("ui", {
+        theme: "light",
+        cssVarsPerTheme: {
+          light: { "cal-brand": "#C9523B" },
+          dark: { "cal-brand": "#E2735E" },
+        },
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    })();
+  }, []);
 
   return (
     <section className="relative w-full min-h-[100svh] flex items-center justify-center">
@@ -44,11 +61,11 @@ export function HeroBlock() {
           <span className="font-mono text-[10px] text-brand-terracotta uppercase tracking-widest">Interceptando #0482</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="font-sans text-xs text-brand-bone/50">Cliente en Visto:</span>
+          <span className="font-sans text-xs text-brand-bone/50">Demanda Oscura:</span>
           <p className="font-sans text-sm text-brand-bone/90 font-medium">&quot;Hola, dejé mi carrito ayer...&quot;</p>
         </div>
         <div className="w-full h-[1px] bg-brand-bone/10 my-1" />
-        <p className="font-sans text-xs text-[#52B788] font-medium tracking-wide">→ Procesando respuesta comercial</p>
+        <p className="font-sans text-xs text-[#52B788] font-medium tracking-wide">→ Ejecutando protocolo de recuperación</p>
       </motion.div>
 
       {/* Tarjeta derecha: "Cobro Exitoso" — solo en xl+ (1280px) para no superponerse con botones */}
@@ -60,7 +77,7 @@ export function HeroBlock() {
       >
         <div className="flex items-center gap-2 mb-1">
           <TrendingUp className="w-4 h-4 text-[#52B788]" />
-          <span className="font-mono text-[10px] text-[#52B788] uppercase tracking-widest">Cobro Exitoso</span>
+          <span className="font-mono text-[10px] text-[#52B788] uppercase tracking-widest">Capital Recuperado</span>
         </div>
         <p className="font-sans text-xl text-white font-bold tracking-tight">+$1.200.000 ARS</p>
         <div className="flex items-center gap-2 mt-1">
@@ -91,11 +108,11 @@ export function HeroBlock() {
           </div>
           <span className="hidden sm:block w-8 h-[1px] bg-brand-bone/20"></span>
           <span className="font-sans text-[10px] sm:text-xs font-medium tracking-widest text-brand-bone/50 uppercase text-center">
-            Recuperando clientes que te clavaron el visto
+            Recuperando lo que dabas por muerto
           </span>
         </motion.div>
 
-        {/* Título Principal — escala progresiva: 4xl → 5xl → 6xl → 7xl → 5.5rem */}
+        {/* Título Principal */}
         <motion.h1
           custom={1}
           initial="hidden"
@@ -103,11 +120,11 @@ export function HeroBlock() {
           variants={fadeUpVariants}
           className="font-accent text-[2.25rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-medium tracking-normal text-white leading-[1.1] mb-6 sm:mb-8 w-full"
         >
-          <span className="block text-white mb-1">Automatizá el rescate</span>
+          <span className="block text-white ">Monetizá la demanda</span>
           <span className="relative inline-block">
             <span className="absolute inset-0 bg-brand-terracotta opacity-10 blur-2xl rounded-full"></span>
-            <span className="relative italic font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-terracotta via-brand-terracotta-light to-brand-terracotta bg-[length:200%_auto] animate-[gradient_3s_ease-in-out_infinite] pr-2 sm:pr-4">
-              de ventas estancadas.
+            <span className="relative italic font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-terracotta via-brand-terracotta-light to-brand-terracotta bg-[length:200%_auto] animate-[gradient_3s_ease-in-out_infinite] pr-2 sm:pr-4">
+              que ya generaste.
             </span>
           </span>
         </motion.h1>
@@ -118,12 +135,12 @@ export function HeroBlock() {
           initial="hidden"
           animate={animState}
           variants={fadeUpVariants}
-          className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-12 leading-relaxed font-light px-2"
+          className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12 leading-relaxed font-light px-2"
         >
-          <strong className="font-brand font-bold tracking-tighter text-brand-bone">rulo<span className="text-brand-terracotta-light">.</span></strong> es la IA que audita tus chats abandonados y cierra a los clientes que dabas por muertos.
+          <span className="font-brand font-medium tracking-tighter text-brand-bone text-[1.05em]">rulo</span> es la IA que ilumina tu <span className="text-white font-medium border-b-2 border-brand-terracotta pb-0.5">demanda oscura</span>: los leads que pagaste y nunca cerraste. Recuperación automática, medible y garantizada.
         </motion.p>
 
-        {/* Botones de Acción — tamaños responsivos */}
+        {/* Botones de Acción */}
         <motion.div
           custom={3}
           initial="hidden"
@@ -132,15 +149,16 @@ export function HeroBlock() {
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 w-full sm:w-auto z-20"
         >
           {/* Botón Primario */}
-          <Link
-            href="https://wa.me/TUNUMERODEWHATSAPP"
-            target="_blank"
-            className="group relative flex items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-5 bg-brand-terracotta text-white font-extrabold rounded-[2px] text-base sm:text-lg lg:text-xl transition-all hover:bg-brand-terracotta-hover hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(201,82,59,0.5)] active:translate-y-0 overflow-hidden"
+          <button
+            data-cal-namespace="30min"
+            data-cal-link="somosrulo/30min"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"light"}'
+            className="group relative flex items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-5 bg-brand-terracotta text-white font-extrabold rounded-[2px] text-base sm:text-lg lg:text-xl transition-all hover:bg-brand-terracotta-hover hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(201,82,59,0.5)] active:translate-y-0 overflow-hidden cursor-pointer"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-[150%] skew-x-[-15deg] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
-            <span className="font-sans">Agendar Demo en Vivo</span>
+            <span className="font-sans">Solicitar Auditoría</span>
             <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:translate-x-1.5" />
-          </Link>
+          </button>
 
           {/* Botón Secundario */}
           <Link
@@ -152,7 +170,7 @@ export function HeroBlock() {
           </Link>
         </motion.div>
 
-        {/* Trust Indicators / Micro Features — responsive: col en mobile, row en md+ */}
+        {/* Trust Indicators / Micro Features */}
         <motion.div
           custom={4}
           initial="hidden"
@@ -162,8 +180,8 @@ export function HeroBlock() {
         >
           {[
             { icon: <Bot className="w-5 h-5" />, title: "Agente Autónomo", desc: "Opera 100% en solitario" },
-            { icon: <TrendingUp className="w-5 h-5" />, title: "Más Rentabilidad", desc: "Aumenta 35% tu conversión" },
-            { icon: <ShieldCheck className="w-5 h-5" />, title: "Fácil Integración", desc: "Listo en < 5 minutos" },
+            { icon: <TrendingUp className="w-5 h-5" />, title: "ROI Garantizado", desc: "O te devolvemos el setup" },
+            { icon: <ShieldCheck className="w-5 h-5" />, title: "API Oficial Meta", desc: "Integración de grado empresarial" },
           ].map((item, index) => (
             <div key={index} className="flex flex-row md:flex-col items-center md:justify-center gap-3 md:gap-2 group cursor-default transition-transform duration-300 transform-gpu lg:hover:-translate-y-1.5 py-3 md:py-0 border-b border-brand-bone/10 md:border-b-0 last:border-b-0">
               <div className="text-brand-terracotta/60 transition-all duration-300 transform-gpu lg:group-hover:text-brand-terracotta lg:group-hover:scale-110 lg:group-hover:drop-shadow-[0_0_8px_rgba(201,82,59,0.8)] shrink-0">

@@ -78,7 +78,7 @@ export const FloatingNav = () => {
               href="#final-cta"
               className="ml-2 bg-brand-terracotta text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-sans font-bold text-[11px] sm:text-sm transition-all transform-gpu hover:scale-[1.02] hover:bg-brand-terracotta-hover shadow-[0_0_15px_rgba(201,82,59,0.3)] hover:shadow-[0_0_25px_rgba(201,82,59,0.5)] whitespace-nowrap"
             >
-              Agendar Demo
+              Recuperar Ventas
             </Link>
 
           </div>

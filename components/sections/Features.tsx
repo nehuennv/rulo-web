@@ -43,7 +43,7 @@ export const Features = () => {
             </span>
             <span className="w-6 sm:w-8 h-[1px] bg-brand-bone/30"></span>
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-bone/60 uppercase">
-              El Sistema Trabajando
+              La Infraestructura Trabajando
             </span>
           </motion.div>
 
@@ -56,7 +56,7 @@ export const Features = () => {
             viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
-            Un loop de recuperación <br className="hidden sm:block" />
+            Un sistema de recuperación <br className="hidden sm:block" />
             <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">que corre solo.</span>
           </motion.h2>
         </div>
@@ -90,7 +90,7 @@ export const Features = () => {
                 Reacción Táctica.
               </h3>
               <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                Cero alarmas al azar. <span className="font-brand font-bold tracking-tighter text-brand-terracotta">rulo<span className="text-brand-bone">.</span></span> lee tu horario comercial y ataca usando escasez: <em className="text-white italic">&quot;Cerramos la caja, ¿te separo el equipo para mañana temprano?&quot;</em>.
+                Sin disparos al azar. <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl ">rulo</span> lee tu horario comercial y activa protocolos de escasez calibrados: <em className="text-white italic">&quot;Cerramos la caja, ¿te separo el equipo para mañana?&quot;</em>.
               </p>
             </div>
           </motion.div>
@@ -105,7 +105,7 @@ export const Features = () => {
             {/* Adorno Visible */}
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-60 lg:group-hover:opacity-100 transition-all duration-500 pointer-events-none transform-gpu lg:group-hover:scale-105">
               <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tr-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
-                <span className="font-sans text-[10px] sm:text-[11px] font-medium text-brand-bone">¿Te lo separo para hoy?</span>
+                <span className="font-sans text-[10px] sm:text-[11px] font-medium text-brand-bone">¿Te lo separo hoy?</span>
                 <MessageSquareText className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-terracotta" />
               </div>
             </div>
@@ -118,7 +118,7 @@ export const Features = () => {
                 Tráfico Físico.
               </h3>
               <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                No cerramos pagos online para evitar estafas. El bot usa <strong className="text-white font-medium">sesgos de escasez</strong> (&quot;<em className="font-accent italic tracking-wide text-brand-bone/90">¿Te lo separo para hoy?</em>&quot;) para llevar físicamente al cliente a tu local.
+                No procesamos pagos online para blindar tu operación. El agente usa <strong className="text-white font-medium">sesgo de escasez</strong> (&quot;<em className="tracking-wide text-brand-bone/90">¿Te lo separo hoy?</em>&quot;) para convertir leads digitales en visitas al local.
               </p>
             </div>
           </motion.div>
@@ -143,10 +143,10 @@ export const Features = () => {
             </div>
             <div>
               <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide transition-colors duration-300 lg:group-hover:text-brand-bone">
-                Sin Comisiones.
+                Tarifa Fija. Sin Comisiones.
               </h3>
               <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                Nuestro modelo es de tarifa plana. Si el bot te recupera 5 clientes o te recupera 100 en un día táctico, nos pagás <strong className="text-white font-medium">exactamente el mismo abono</strong> mensual.
+                Modelo de abono plano. Si recuperamos 5 clientes o 50 en un día táctico, el costo es <strong className="text-white font-medium">exactamente el mismo</strong>. Tu upside es ilimitado.
               </p>
             </div>
           </motion.div>
@@ -176,7 +176,7 @@ export const Features = () => {
                 El Mejor Aliado de tu Vendedor.
               </h3>
               <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-                No robamos comisiones, hacemos el trabajo sucio. Cuando hay visita confirmada, <span className="font-brand font-bold tracking-tighter text-brand-terracotta">rulo<span className="text-brand-bone">.</span></span> le avisa a tu equipo por privado. Ellos solo se dedican a cobrar.
+                No tocamos comisiones. Hacemos el trabajo sucio. Cuando hay visita confirmada, <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl ">rulo</span> alerta al equipo por privado. Ellos solo cobran.
               </p>
             </div>
           </motion.div>

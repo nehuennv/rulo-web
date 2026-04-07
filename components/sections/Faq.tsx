@@ -121,11 +121,11 @@ export const Faq = () => {
             <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/50"></span>
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-terracotta uppercase flex items-center gap-1.5 sm:gap-2">
               <MessageCircleQuestion className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
-              Matando objeciones
+              Seguridad Técnica y Operativa
             </span>
             <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/50"></span>
           </motion.div>
-
+ 
           <motion.h2
             variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-6 sm:mb-8"
@@ -133,10 +133,27 @@ export const Faq = () => {
             Preguntas <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">Frecuentes.</span>
           </motion.h2>
         </div>
-
+ 
         {/* ----- ACORDEÓN DE PREGUNTAS ----- */}
         <div className="flex flex-col gap-4">
-          {faqs.map((faq, index) => (
+          {[
+            {
+              question: "¿Qué riesgo hay de que me baneen el número de WhatsApp?",
+              answer: "Cero riesgo operando con nosotros. rulo usa exclusivamente la Meta API Oficial, la misma infraestructura que usan las empresas Fortune 500. A diferencia de apps de terceros o extensiones de Chrome, tu número opera bajo el ecosistema de Meta directamente. El proceso incluye validación de identidad (CUIT y documentación legal), lo que convierte tu operación en un canal empresarial certificado."
+            },
+            {
+              question: "¿Cómo garantizan que la IA no da información errónea?",
+              answer: "rulo no es un chat de texto libre que \"alucina\" respuestas. Es una Máquina de Estados Finita (FSM) con reglas rígidas: el agente solo puede ejecutar acciones predefinidas dentro de un flujo de recuperación. Si el cliente pregunta algo fuera del protocolo de reserva, el sistema se detiene automáticamente y transfiere: \"Te paso con un asesor del local\". No hay improvisación posible."
+            },
+            {
+              question: "¿Esto va a reemplazar a mis vendedores?",
+              answer: "Al revés. rulo hace el trabajo que destruye la productividad de tu equipo: el seguimiento de leads fríos. El agente recupera al cliente y confirma la visita. Tu vendedor recibe una notificación privada con el cliente listo para pagar. Eliminamos el trabajo sucio y le devolvemos al equipo solo los momentos de cobro."
+            },
+            {
+              question: "¿Cómo miden si el sistema funcionó?",
+              answer: "Nuestro KPI es la cantidad de demanda oscura que el sistema convierte en visitas confirmadas o re-interés legítimo en la compra. El tracking es inmutable: cada interacción queda registrada en el sistema. Vos podés ver exactamente qué leads fueron recuperados, cuándo y con qué protocolo."
+            }
+          ].map((faq, index) => (
             <AccordionItem
               key={index}
               index={index}
