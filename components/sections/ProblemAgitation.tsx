@@ -162,7 +162,7 @@ export const ProblemAgitation = () => {
               En e-commerce, cada peso se mide: clicks, conversiones, ROAS. Pero en tu
               WhatsApp hay un agujero negro. Invertís en Meta Ads para que el lead llegue,
               pregunta el precio, y desaparece.{" "}
-              <strong className="text-white font-bold border-b-2 border-brand-terracotta pb-0.5">
+              <strong className="text-white font-bold underline decoration-brand-terracotta decoration-2 underline-offset-4">
                 Eso es demanda oscura.
               </strong>
             </p>

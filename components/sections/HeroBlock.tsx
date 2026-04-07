@@ -204,7 +204,7 @@ export function HeroBlock() {
             </span>
           </div>
           <span className="hidden sm:block w-8 h-[1px] bg-brand-bone/20" aria-hidden="true" />
-          <span className="font-sans text-[10px] sm:text-xs font-medium tracking-widest text-brand-bone/60 uppercase text-center text-balance">
+          <span className="hidden sm:block font-sans text-[10px] sm:text-xs font-medium tracking-widest text-brand-bone/60 uppercase text-center text-balance">
             Recuperando lo que dabas por muerto
           </span>
         </motion.div>
@@ -235,13 +235,13 @@ export function HeroBlock() {
           initial="hidden"
           animate={animState}
           variants={fadeUpVariants}
-          className="font-sans text-sm sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12 leading-relaxed font-light px-2 text-balance"
+          className="font-sans text-sm sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12 leading-relaxed font-light px-0 sm:px-2 md:text-balance"
         >
           <span className="font-brand font-medium tracking-tighter text-brand-bone text-[1.05em]">
             rulo
           </span>{" "}
           es la IA que ilumina tu{" "}
-          <span className="text-white font-medium border-b-2 border-brand-terracotta pb-0.5">
+          <span className="text-white font-medium underline decoration-brand-terracotta decoration-2 underline-offset-4">
             demanda oscura
           </span>
           : los leads que pagaste y nunca cerraste. Recuperación automática, medible y garantizada.

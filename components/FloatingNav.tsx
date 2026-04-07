@@ -216,6 +216,11 @@ export const FloatingNav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
+  /* Broadcast menu state for other floating components */
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("rulo-menu-state", { detail: menuOpen }));
+  }, [menuOpen]);
+
   /* Close menu on Escape */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {

@@ -183,7 +183,7 @@ export const FinalCta = () => {
             >
               <p className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 leading-relaxed font-light">
                 Asumimos el riesgo de integración con una{" "}
-                <strong className="text-white font-bold border-b-2 border-brand-terracotta pb-0.5">
+                <strong className="text-white font-bold underline decoration-brand-terracotta decoration-2 underline-offset-4">
                   garantía contractual de retorno.
                 </strong>
               </p>
@@ -225,7 +225,7 @@ export const FinalCta = () => {
 
               {/* CTA secundario — WhatsApp */}
               <a
-                href="https://wa.me/TUNUMERODEWHATSAPP"
+                href="https://wa.me/5492644881787?text=Hola,%20quisiera%20más%20información."
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Consultar por WhatsApp (abre en nueva pestaña)"
@@ -254,12 +254,22 @@ export const FinalCta = () => {
                 "Respuesta en 24 h",
                 "Sin compromiso",
               ].map((item, i, arr) => (
-                <span key={item} className="flex items-center gap-4 sm:gap-5">
+                <span
+                  key={item}
+                  className={`items-center gap-4 sm:gap-5 ${
+                    item === "Respuesta en 24 h" ? "hidden sm:flex" : "flex"
+                  }`}
+                >
                   <span className="font-mono text-[10px] sm:text-xs tracking-widest uppercase text-brand-bone/35">
                     {item}
                   </span>
                   {i < arr.length - 1 && (
-                    <span aria-hidden="true" className="hidden sm:block w-1 h-1 rounded-full bg-brand-bone/20" />
+                    <span
+                      aria-hidden="true"
+                      className={`w-1 h-1 rounded-full bg-brand-bone/20 ${
+                        item === "Respuesta en 24 h" ? "hidden sm:block" : "hidden sm:block"
+                      }`}
+                    />
                   )}
                 </span>
               ))}

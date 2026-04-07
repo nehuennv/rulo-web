@@ -322,11 +322,11 @@ export const RoiCalculator = () => {
           viewport={{ once: true, margin: "-80px" }}
           className="mt-8 sm:mt-12 lg:mt-14 flex justify-center"
         >
-          <div className="max-w-2xl text-center px-5 sm:px-8 py-4 sm:py-5 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md">
+          <div className="max-w-2xl text-center px-4 sm:px-8 py-5 sm:py-6 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md">
             <p className="font-sans text-brand-bone text-sm sm:text-base md:text-lg font-medium leading-relaxed">
               El abono mensual fijo no varía.{" "}
-              <span className="hidden sm:inline"><br /></span>
-              <strong className="text-white font-bold border-b-2 border-brand-success pb-0.5 sm:ml-1 mt-2 sm:mt-0 inline-block">
+              <br className="sm:hidden" />
+              <strong className="text-white font-bold underline decoration-brand-success decoration-2 underline-offset-4 inline">
                 Cada recuperación adicional es margen neto directo.
               </strong>
             </p>

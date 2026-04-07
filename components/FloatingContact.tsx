@@ -8,6 +8,7 @@ export const FloatingContact = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isOverFooter, setIsOverFooter] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
 
   const checkOverlap = useCallback(() => {
@@ -30,15 +31,19 @@ export const FloatingContact = () => {
     window.addEventListener("resize", checkOverlap, { passive: true });
     checkOverlap();
 
+    const handleMenuState = (e: any) => setIsMenuOpen(e.detail);
+    window.addEventListener("rulo-menu-state", handleMenuState);
+
     return () => {
       window.removeEventListener("scroll", checkOverlap);
       window.removeEventListener("resize", checkOverlap);
+      window.removeEventListener("rulo-menu-state", handleMenuState);
       clearTimeout(initTimer);
     };
   }, [checkOverlap]);
 
   const handleClick = () => {
-    window.open("https://wa.me/5491173599964?text=Hola,%20quisiera%20más%20información.", "_blank");
+    window.open("https://wa.me/5492644881787?text=Hola,%20quisiera%20más%20información.", "_blank");
   };
 
   return (
@@ -81,7 +86,7 @@ export const FloatingContact = () => {
             {/* Pulso detrás del botón — cambia de color según zona */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
-                className={`absolute w-full h-full rounded-full animate-[ping_2.25s_cubic-bezier(0,0,0.2,1)_infinite] transition-colors duration-500 ${isOverFooter
+                className={`absolute w-full h-full rounded-full animate-[ping_2.25s_cubic-bezier(0,0,0.2,1)_infinite] transition-colors duration-500 ${isOverFooter && !isMenuOpen
                   ? "border border-white/40"
                   : "border border-brand-terracotta/30"
                   }`}
@@ -93,7 +98,7 @@ export const FloatingContact = () => {
               onClick={handleClick}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className={`pointer-events-auto group relative w-14 h-14 text-white flex items-center justify-center rounded-full transition-all duration-500 lg:hover:scale-[1.05] cursor-pointer overflow-hidden shrink-0 ${isOverFooter
+              className={`pointer-events-auto group relative w-14 h-14 text-white flex items-center justify-center rounded-full transition-all duration-500 lg:hover:scale-[1.05] cursor-pointer overflow-hidden shrink-0 ${isOverFooter && !isMenuOpen
                 ? "bg-[#231F1E] shadow-[0_4px_25px_rgba(0,0,0,0.5)] ring-1 ring-white/15"
                 : "bg-brand-terracotta shadow-[0_4px_20px_rgba(201,82,59,0.3)]"
                 }`}

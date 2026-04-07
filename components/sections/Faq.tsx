@@ -110,7 +110,7 @@ const AccordionItem = ({
 };
 
 export const Faq = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   /* 3. SEO: Generamos el JSON-LD dinámicamente para inyectarlo en el DOM.
      Esto es obligatorio para que Google muestre las Rich Snippets de Preguntas Frecuentes. */
