@@ -87,7 +87,7 @@ export function HeroBlock() {
           light: { "cal-brand": "#C9523B" },
           dark: { "cal-brand": "#C9523B" },
         },
-        hideEventTypeDetails: false,
+        hideEventTypeDetails: true,
         layout: "month_view",
       });
     })();
@@ -98,7 +98,7 @@ export function HeroBlock() {
       calLink: CAL_LINK,
       config: {
         layout: "month_view",
-        useSlotsViewOnSmallScreen: "true",
+        hideEventTypeDetails: "true",
         theme: "light",
       },
     });

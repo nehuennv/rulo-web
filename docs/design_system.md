@@ -1,72 +1,83 @@
-# 🎨 Rulo - Sistema de Diseño y Estilos Core
+# 🎨 rulo - Sistema de Diseño & Manifiesto Visual
 
-Este documento sirve como la única fuente de verdad (Single Source of Truth) para la dirección de arte, sistema tipográfico y paleta de colores de la Landing Page de **rulo**, originados a partir del diseño del bloque principal (Hero).
+Este documento es el **Single Source of Truth** para la dirección de arte, sistema tipográfico y patrones de UI de **rulo**. Define una estética **Editorial Premium / Boutique** que se aleja del minimalismo SaaS genérico para transmitir autoridad, sofisticación y alto valor estratégico.
 
 ---
 
 ## 1. ✒️ Ecosistema Tipográfico
-El diseño abandonó la típica estética "SaaS plana" integrando una dualidad tipográfica de alto impacto, enfocada en un público High-Ticket. Las fuentes se cargan estáticamente vía `next/font/google` en `layout.tsx`.
+El diseño utiliza una dualidad tipográfica agresiva para crear jerarquía y carácter.
 
-*   **Tipografía Base (`--font-sans`): Poppins**
-    *   **Uso:** Párrafos, descripciones, micro-features, botones principales, textos estructurales.
-    *   **Personalidad:** Geométrica, limpia, tecnológica y altamente legible. Da soporte estructural para que la jerarquía principal descanse.
-*   **Tipografía de Acento (`--font-accent`): Playfair Display**
-    *   **Uso:** Exclusivamente en Títulos Principales (H1), palabras clave críticas y títulos de micro-features. Se utiliza fuertemente en su versión **Itálica (`italic`)**.
-    *   **Personalidad:** Literaria, editorial, lujosa. Otorga ese toque "arriesgado y boutique" que contrasta violentamente (de buena manera) con la solidez de Poppins.
-*   **Tipografía de Marca (`--font-brand`): Lexend**
-    *   **Uso:** Replicación estricta del isotipo/logo ("rulo.").
-*   **Tipografía Técnica (`--font-mono`): Geist Mono**
-    *   **Uso:** Indicadores de estado del sistema (ej: "SYSTEM ONLINE", logs, status de terminal).
-    *   **Personalidad:** Backend, cruda, programática.
+### Fuentes Principales
+*   **Sans (`--font-sans`): Poppins**
+    *   **Uso:** Cuerpo de texto, micro-features, botones, estructuras.
+    *   **Estilo:** Limpio, tecnológico, legible.
+*   **Accent (`--font-accent`): Playfair Display**
+    *   **Uso:** Títulos (H1, H2), títulos de tarjetas y palabras clave críticas.
+    *   **Regla de Oro:** Se usa predominantemente en su versión **Itálica (`italic`)** para dar ese toque editorial y lujoso.
+*   **Brand (`--font-brand`): Lexend**
+    *   **Uso:** Logotipo ("rulo.") y menciones de marca integradas en el texto.
+    *   **Carácter:** Geometría amigable pero ultra-profesional.
+*   **Mono (`--font-mono`): Geist Mono**
+    *   **Uso:** Labels de sistema, indicadores técnicos (ej: "SYSTEM ONLINE"), pre-títulos de sección.
+
+### Reglas de Énfasis Editorial
+Para mantener la autoridad en la lectura:
+1.  **Bold Underline:** Uso de `<strong className="text-white font-bold underline decoration-brand-terracotta/brand-success decoration-2 underline-offset-4">`. Se usa para conceptos clave como "Demanda Oscura" o "Margen Neto".
+2.  **Italic Quotes:** Las citas de usuarios o ejemplos de conversación usan `em className="text-white italic"` para separarlas de la narrativa técnica.
 
 ---
 
-## 2. 🎨 Paleta de Colores (`app/globals.css`)
-Los colores se definen mediante el bloque de Tailwind CSS nativo v4 `@theme inline`. La paleta abandona la saturación estridente ("estética tech startup") para adoptar un enfoque **Editorial Premium / Boutique**. Se basa en tonos piedra cálidos, colores hueso y acentos orgánicos que transmiten seguridad, madurez y alto valor comercial.
+## 2. 🎨 Paleta de Colores
+Basada en tonos orgánicos y térmicos que eliminan la fatiga visual y transmiten madurez.
 
-### Primarios y Fondos (Warm Stone / Dark Earth)
-* `--color-brand-dark` (`#231F1E`): Color de fondo base de la sección principal. Un marrón grafito muy oscuro, casi ébano. Absorbe la luz y elimina la fatiga visual del negro absoluto, dando un lienzo cálido y sofisticado.
-* `--color-brand-dark-light` (`#3A3331`): Tono intermedio usado para *Radial Glows* ambientales y fondos de las placas flotantes (Glassmorphism), inyectando una profundidad sutil sin ensuciar la lectura.
-* `--color-brand-dark-lightest` (`#4F4643`): Variación para bordes (`border-white/10` ahora usa este tono) e iluminaciones secundarias estructurales.
+### Base (Warm Stone / Dark Earth)
+*   **Background (`#231F1E`):** Tonos ébano/grafito cálidos.
+*   **Bone (`#E8E3D9`):** El color hueso reemplaza al blanco para el texto secundario y descriptivo (usualmente al 80% o 60% de opacidad).
 
-### Acentos de Tensión y Marca (Brand Terracotta)
-* `--color-brand-terracotta` (`#C9523B`): El terracota/ladrillo icónico del logo. Es el color de la conversión, maduro pero contundente. Usado estratégicamente para CTAs (botones) y el punto focal parpadeante (`animate-ping`).
-* `--color-brand-terracotta-light` (`#E2735E`): Variación luminosa. Fundamental para los efectos de gradiente de texto en movimiento (`bg-gradient-to-r`) y generar brillos orgánicos en el botón secundario.
-* `--color-brand-terracotta-hover` (`#B24430`): Oscurecimiento sólido para el *hover state* en botones interactivos, dando una respuesta táctil visual pesada y realista.
+### Acentos Funcionales
+*   **Terracotta (`#C9523B`):** El color de la "Tensión Comercial". Usado para CTAs principales y puntos de dolor.
+*   **Success (`#52B788`):** Verde salvia/mate para **resultados financieros y ROI**. Representa el dinero recuperado sin la estridencia del verde neón.
 
-### Neutros y Texto (Brand Bone & Cream)
-* `--color-brand-bone` (`#E8E3D9`): Reemplaza al gris clásico. Un color hueso/crema para párrafos y micro-features, opacado a /80 o /60. Es la clave para que la tipografía Playfair (Serif) transmita ese lujo "editorial" en contraste con el fondo oscuro.
-* `text-white` (`#FCFBF8`): El texto principal no es blanco puro (`#FFFFFF`), sino un blanco marfil cálido. Se reserva **puramente** para los enunciados primarios (H1, H2) para evitar el efecto de astigmatismo digital y mantener la elegancia.
+### Jerarquía de Opacidad (Tailwind Classes)
+*   **/80:** Lectura principal (párrafos).
+*   **/60:** Metadatos, descripciones secundarias, sub-párrafos.
+*   **/40:** Separadores, detalles decorativos mínimos.
 
-### Status Colors (Organic Indicators)
-* `#52B788`: Un verde salvia/mate oscuro, reemplazando al verde neón. Usado exclusivamente en paneles de sistema asíncronos para comunicar **éxito o ganancias financieras** (Ej: "Cobro Exitoso + $1.200.000 ARS"). Transmite el mensaje de éxito ("dinero") sin romper la armonía boutique de la página.
 ---
 
-## 3. 🧩 Estructuras Visuales & Patrones de UI
+## 3. 🧩 Patterns de UI & Componentes
 
-### A. Elementos Flotantes (Asynchronous Glassmorphism)
-Para evitar pantallas vacías en ordenadores (Desktop) y dar narrativa visual sin sobrexcitar con textos largos, se utilizan placas de cristal flotantes:
-*   **Construcción:** `bg-white/[0.015] backdrop-blur-xl border border-white/10`. Crea una ilusión de esmerilado que deja penetrar el gradiente del fondo sin obstruirlo.
-*   **Animación:** Estas placas rotan en ángulos aleatorios sutiles (`rotate-[2deg]`) e interactúan con Framer Motion haciendo un "hover vertical" infinito tipo flotación en y `[0, -10, 0]` utilizando una duración asimétrica de 5 o 6 segundos para que parezca aleatorio y orgánico.
+### A. Glassmorphism Asíncrono
+Los contenedores (tarjetas de Features, ROI, Pain points) siguen un patrón de cristal esmerilado:
+*   **Estilo:** `bg-white/[0.015] backdrop-blur-sm border border-white/5`.
+*   **Hover State:** `lg:hover:bg-white/[0.03] lg:hover:border-white/10 lg:hover:shadow-2xl`. Los elementos se elevan sutilmente (`y-[-4px]`).
 
-### B. El "System Indicator" (Evolución del Badge)
-*   En vez del aburrido badge genérico redondeado, se emplea un formato "terminal de sistema".
-*   Tiene un pequeño punto parpadeante (`w-1.5 h-1.5 rounded-full flex`) en amarillo puro que respira constantemente usando `animate-ping`.
-*   Fuente siempre en mayúsculas `tracking-[0.2em] uppercase`.
+### B. El Contenedor de Íconos
+Los íconos no flotan solos; viven en un ecosistema protegido:
+*   **Estructura:** Fondo `bg-brand-bone/5` (o `brand-success/10`), borde `border-brand-bone/10` y esquinas `rounded-lg`.
+*   **Reacción:** En hover, el ícono escala (`scale-110`) y cambia hacia el color de acento de la tarjeta.
 
-### C. Estilos de Botones (Cero Curvas Infantiles)
-1.  **Botón Primario (Action CTA):**
-    *   Forma: Rectangular y agresivo (`rounded-none`).
-    *   Color: `bg-brand-yellow text-brand-purple font-extrabold`.
-    *   Interacción Fuerte: Hover state que añade Sombra exterior de Neón (`shadow-[0_0_40px_rgba(244,180,0,0.5)]`), eleva el elemento (`-translate-y-1`) y un brillo en diagonal "Skew Effect" que cruza rápidamente la pantalla dando efecto de vidrio cruzando luz.
-2.  **Botón Secundario (Discovery CTA):**
-    *   Forma: Tipográfico puro con soporte visual `bg-transparent`.
-    *   Interacción Discreta: Carece de márgenes invasivos, delineado únicamente por debajo (`border-b border-brand-cream/30`) coloreándose lentamente a amarillo puro al interactuar en Hover.
+### C. Botones: Contradicción Estética
+*   **CTAs Principales:** Rectangulares y agresivos (`rounded-none`). Transmiten solidez y decisión.
+*   **Navegación / Floating UI:** Orgánicos y circulares (`rounded-full`). Transmiten fluidez y comodidad de uso.
 
-### D. Fondo de Arquitectura (Mesh Grid)
-*   **Base:** Malla semitransparente con repetición infinita compuesta por una grilla mínima: `bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]`.
-*   **Máscara (Fade Out):** Para no recargar, este fondo desaparece dinámicamente en los bordes gracias a una máscara radial de elipse `[mask-image:radial-gradient(...)]` que hace invisible la grilla a medida que se aleja del centro focal de enfoque de lectura.
+### D. Ambient Glows (Depth)
+Para evitar el "vacío digital", se utilizan orbes desenfocados en el fondo:
+*   **Glows:** `blur-[100px]` o `blur-[150px]`, `mix-blend-screen`.
+*   **Mesh Grid:** Una malla mínima de 1px (`#ffffff0a`) con máscara radial para que desaparezca suavemente hacia los bordes.
 
-### E. Entorno Ambienta (Ambient Glows)
-En vez de usar fondos radiales genéricos o fondos totalmente vacíos oscuros, se construyen bolas gigantes que pierden enfoque para dar un gradiente etéreo hiper-personalizado que reacciona a las pantallas.
-*   `w-[500px] h-[500px] blur-[150px] mix-blend-screen bg-brand-purple-light/30`. Estas entidades son inclickeables (`pointer-events-none`) y conviven atrás de toda interacción.
+---
+
+## 4. 🧠 UX Editorial & Naming (Tone of Voice)
+
+*   **Lowercase Branding:** La marca siempre se escribe en minúsculas: **rulo**. Se siente como una herramienta, una utilidad técnica integrada, no un gran corporativo.
+*   **Demanda Oscura:** Concepto central de la narrativa. Se trata con seriedad técnica.
+*   **Pulsos de Vida:** Uso de `animate-ping` en indicadores de "SYSTEM ONLINE" o "LIVE" para demostrar que la infraestructura es asíncrona y está activa 24/7.
+
+---
+
+## 5. 📏 Secciones & Ritmo
+Para mantener la sensación de "Sitio Premium de una sola página":
+*   **Vertical Padding:** Estándar de `py-16 sm:py-24 lg:py-36`.
+*   **Section Headers:** Siempre incluyen un pre-título en `font-mono` con una línea decorativa lateral (`w-8 h-[1px] bg-brand-terracotta`).
+*   **Max Width:** Contenedores limitados a `max-w-7xl` para asegurar legibilidad en monitores Ultra-Wide.

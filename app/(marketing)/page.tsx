@@ -2,6 +2,7 @@
 
 import { HeroBlock } from "@/components/sections/HeroBlock";
 import { ProblemAgitation } from "@/components/sections/ProblemAgitation";
+import { InterventionSection } from "@/components/sections/InterventionSection";
 import { Features } from "@/components/sections/Features";
 import { Integrations } from "@/components/sections/Integrations";
 import { RoiCalculator } from "@/components/sections/RoiCalculator";
@@ -19,9 +20,11 @@ export default function LandingPage() {
       <div className="relative z-10 w-full flex flex-col">
         <HeroBlock />
         <ProblemAgitation />
+        <InterventionSection />
         <Features />
         {/* <Integrations /> */}
         <RoiCalculator />
+
         <FinalCta />
         <Faq />
         <Footer />
