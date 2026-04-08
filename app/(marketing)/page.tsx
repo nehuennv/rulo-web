@@ -1,3 +1,5 @@
+"use client";
+
 import { HeroBlock } from "@/components/sections/HeroBlock";
 import { ProblemAgitation } from "@/components/sections/ProblemAgitation";
 import { Features } from "@/components/sections/Features";

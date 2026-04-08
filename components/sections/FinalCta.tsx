@@ -38,12 +38,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 
 // ─── Cal.com ──────────────────────────────────────────────────────────────────
-const CAL_NAMESPACE = "30min";
-const CAL_LINK = "somosrulo/30min";
+const CAL_NAMESPACE = "primer-reunion";
+const CAL_LINK = "somosrulo/primer-reunion";
 
 // ─── Variantes ────────────────────────────────────────────────────────────────
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 30 },
+const motionVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -55,22 +55,14 @@ const fadeUpVariants = {
   }),
 };
 
-const staticVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
-};
-
 // ─── Componente ───────────────────────────────────────────────────────────────
 export const FinalCta = () => {
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
   const calInitialized = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
 
 
   // Inicialización con guard — evita doble init en strict mode / hot reload
@@ -84,7 +76,7 @@ export const FinalCta = () => {
         theme: "light",
         cssVarsPerTheme: {
           light: { "cal-brand": "#C9523B" },
-          dark: { "cal-brand": "#E2735E" },
+          dark: { "cal-brand": "#C9523B" },
         },
         hideEventTypeDetails: false,
         layout: "month_view",
@@ -103,6 +95,8 @@ export const FinalCta = () => {
       },
     });
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <section
@@ -143,7 +137,7 @@ export const FinalCta = () => {
               custom={0}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               className="flex items-center gap-2.5 sm:gap-3 mb-6 sm:mb-8"
             >
               <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-success/60" />
@@ -161,7 +155,7 @@ export const FinalCta = () => {
               custom={1}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-6 sm:mb-8 w-full max-w-4xl mx-auto"
             >
               Garantía total.{" "}
@@ -178,7 +172,7 @@ export const FinalCta = () => {
               custom={2}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               className="mb-10 sm:mb-14 max-w-3xl px-2"
             >
               <p className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 leading-relaxed font-light">
@@ -200,15 +194,17 @@ export const FinalCta = () => {
               custom={3}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto"
             >
               {/* CTA primario — Cal.com programático */}
-              <button
+              <motion.button
                 type="button"
                 onClick={openCalModal}
-                aria-label="Agendar demo estratégica de 30 minutos"
-                className="group relative flex items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto px-7 sm:px-10 py-5 sm:py-6 bg-brand-terracotta text-white font-black rounded-[2px] text-lg sm:text-xl transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-brand-terracotta-hover lg:hover:-translate-y-2 lg:hover:shadow-[0_0_60px_rgba(201,82,59,0.5)] active:translate-y-0 active:scale-[0.98] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1816]"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                aria-label="Agendar Sesión Estratégica"
+                className="group relative flex items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto px-7 sm:px-10 py-5 sm:py-6 bg-brand-terracotta text-white font-black rounded-[2px] text-lg sm:text-xl transition-all duration-300 shadow-[0_0_20px_rgba(201,82,59,0.2)] lg:hover:bg-brand-terracotta-hover lg:hover:shadow-[0_0_60px_rgba(201,82,59,0.5)] overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1816]"
               >
                 {/* Shimmer */}
                 <span
@@ -221,22 +217,24 @@ export const FinalCta = () => {
                   className="relative w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 transform-gpu lg:group-hover:translate-x-2"
                   aria-hidden="true"
                 />
-              </button>
+              </motion.button>
 
               {/* CTA secundario — WhatsApp */}
-              <a
+              <motion.a
                 href="https://wa.me/5492644881787?text=Hola,%20quisiera%20más%20información."
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 aria-label="Consultar por WhatsApp (abre en nueva pestaña)"
-                className="group flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 sm:px-8 py-5 sm:py-6 border border-brand-terracotta/30 text-brand-bone/70 font-sans font-semibold rounded-[2px] text-base sm:text-lg transition-all duration-300 lg:hover:border-brand-terracotta/60 lg:hover:text-brand-bone lg:hover:bg-brand-terracotta/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1816]"
+                className="group flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 sm:px-8 py-5 sm:py-6 border border-brand-terracotta/30 text-brand-bone/70 font-sans font-semibold rounded-[2px] text-base sm:text-lg transition-all duration-300 lg:hover:border-brand-terracotta/60 lg:hover:text-brand-bone lg:hover:bg-brand-terracotta/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1816]"
               >
                 <span>Consultar por WhatsApp</span>
                 <ArrowRight
                   className="w-4 h-4 opacity-50 transition-all duration-300 lg:group-hover:opacity-100 lg:group-hover:translate-x-1"
                   aria-hidden="true"
                 />
-              </a>
+              </motion.a>
             </motion.div>
 
             {/* ── Micro-trust ── */}
@@ -245,20 +243,19 @@ export const FinalCta = () => {
               custom={4}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-6"
               aria-label="Detalles de la reunión"
             >
               {[
-                "Reunión de 30 min",
+                "Sesión Estratégica",
                 "Respuesta en 24 h",
                 "Sin compromiso",
               ].map((item, i, arr) => (
                 <span
                   key={item}
-                  className={`items-center gap-4 sm:gap-5 ${
-                    item === "Respuesta en 24 h" ? "hidden sm:flex" : "flex"
-                  }`}
+                  className={`items-center gap-4 sm:gap-5 ${item === "Respuesta en 24 h" ? "hidden sm:flex" : "flex"
+                    }`}
                 >
                   <span className="font-mono text-[10px] sm:text-xs tracking-widest uppercase text-brand-bone/35">
                     {item}
@@ -266,9 +263,8 @@ export const FinalCta = () => {
                   {i < arr.length - 1 && (
                     <span
                       aria-hidden="true"
-                      className={`w-1 h-1 rounded-full bg-brand-bone/20 ${
-                        item === "Respuesta en 24 h" ? "hidden sm:block" : "hidden sm:block"
-                      }`}
+                      className={`w-1 h-1 rounded-full bg-brand-bone/20 ${item === "Respuesta en 24 h" ? "hidden sm:block" : "hidden sm:block"
+                        }`}
                     />
                   )}
                 </span>

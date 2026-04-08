@@ -63,35 +63,28 @@ const PAIN_CARDS: PainCard[] = [
 ];
 
 // ─── Variantes de animación ───────────────────────────────────────────────────
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 30 },
+const motionVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
+      delay: i * 0.1,
       duration: 0.8,
       ease: [0.2, 0.65, 0.3, 0.9] as const,
     },
   }),
 };
 
-// Variante estática para usuarios con prefers-reduced-motion
-const staticVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
-};
-
 // ─── Componente ───────────────────────────────────────────────────────────────
 export const ProblemAgitation = () => {
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
+  if (!mounted) return null;
 
 
   return (
@@ -115,16 +108,14 @@ export const ProblemAgitation = () => {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-10 sm:gap-14 lg:gap-20 xl:gap-28 items-start lg:items-center">
 
         {/* ── Columna izquierda: texto narrativo ── */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="w-full lg:w-[45%] flex flex-col gap-4 sm:gap-6"
-        >
+        <div className="w-full lg:w-[45%] flex flex-col gap-4 sm:gap-6">
           {/* Pre-título */}
           <motion.div
             variants={motionVariants}
             custom={0}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="flex items-center gap-2.5 sm:gap-3"
           >
             <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/80 shrink-0" />
@@ -140,6 +131,9 @@ export const ProblemAgitation = () => {
             id="problem-heading"
             variants={motionVariants}
             custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-6xl font-black tracking-tight text-white leading-[1.05]"
           >
             {/* 
@@ -156,6 +150,9 @@ export const ProblemAgitation = () => {
           <motion.div
             variants={motionVariants}
             custom={2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/80 leading-relaxed font-light mt-1 sm:mt-2 max-w-none sm:max-w-lg lg:max-w-none"
           >
             <p>
@@ -171,23 +168,20 @@ export const ProblemAgitation = () => {
               Millones evaporándose por día.
             </p>
           </motion.div>
-        </motion.div>
+        </div>
 
         {/* ── Columna derecha: tarjetas de dolor ── */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="w-full lg:w-[55%] flex flex-col gap-3 sm:gap-4"
-        >
+        <div className="w-full lg:w-[55%] flex flex-col gap-3 sm:gap-4">
           {PAIN_CARDS.map((dolor, index) => (
             <motion.article
               key={dolor.title}
               variants={motionVariants}
-              custom={index + 2}
-              className="group relative flex items-start gap-4 sm:gap-6 p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-visible transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-
-              // aria-label explícito para screen readers que anuncien el article
+              custom={index}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-10% 0px" }}
+              whileHover={{ y: -4 }} // Sutil
+              className="group relative flex items-start gap-4 sm:gap-6 p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-visible transition-colors transition-shadow duration-300 lg:hover:bg-white/[0.03] lg:hover:shadow-2xl lg:hover:border-white/10"
               aria-label={`Problema: ${dolor.title}`}
             >
               {/* Glow interno en hover */}
@@ -216,7 +210,7 @@ export const ProblemAgitation = () => {
               </div>
             </motion.article>
           ))}
-        </motion.div>
+        </div>
 
       </div>
     </section>

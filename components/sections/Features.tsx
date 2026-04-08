@@ -1,32 +1,5 @@
 "use client";
 
-/**
- * Features — Sección de características de rulo
- *
- * SEO / Semántica:
- * - <section> con id y aria-labelledby apuntando al h2
- * - h2 con id referenciado
- * - Cards como <article> con aria-label
- * - Decorativos con aria-hidden
- * - Adornos visuales con aria-hidden + pointer-events-none
- *
- * Responsividad:
- * - overflow-x-hidden en la section para contener glows
- * - whitespace en h2: solo lg:whitespace-nowrap (si aplica)
- * - Padding y gap fluidos por breakpoint
- * - Bento grid: 1 col mobile → 2 col md+
- *
- * Performance:
- * - useReducedMotion para respetar preferencia del SO
- * - will-change-transform en cards animadas
- * - key estable por title
- * - whileInView con once:true
- *
- * Accesibilidad:
- * - aria-hidden en decorativos y pings
- * - aria-label en articles
- * - Contraste /70 en texto secundario (pasa WCAG AA)
- */
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -45,8 +18,8 @@ interface FeatureCard {
 }
 
 // ─── Variantes ────────────────────────────────────────────────────────────────
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 30 },
+const motionVariants = {
+  hidden: { opacity: 0, y: 20 }, // Reducimos de 30 a 20 para que no sea tan brusco
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -56,11 +29,6 @@ const fadeUpVariants = {
       ease: [0.2, 0.65, 0.3, 0.9] as const,
     },
   }),
-};
-
-const staticVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
 };
 
 // ─── Data de features ─────────────────────────────────────────────────────────
@@ -168,11 +136,9 @@ const FEATURES: FeatureCard[] = [
 function FeatureCard({
   feature,
   customIndex,
-  variants,
 }: {
   feature: FeatureCard;
   customIndex: number;
-  variants: typeof fadeUpVariants | typeof staticVariants;
 }) {
   const glowClass =
     feature.glowColor === "terracotta"
@@ -181,14 +147,14 @@ function FeatureCard({
 
   return (
     <motion.article
-      variants={variants}
+      variants={motionVariants}
       custom={customIndex}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-10% 0px -10% 0px" }} // Triggers individuales finos
+      whileHover={{ y: -4 }} // Más sutil
       aria-label={`Característica: ${feature.title}`}
-      className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-visible transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10"
-
+      className="group relative flex flex-col justify-between p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm overflow-visible transition-colors transition-shadow duration-300 lg:hover:bg-white/[0.03] lg:hover:shadow-2xl lg:hover:border-white/10"
     >
       {/* Glow interno en hover */}
       <div
@@ -226,13 +192,12 @@ function FeatureCard({
 // ─── Componente principal ─────────────────────────────────────────────────────
 export const Features = () => {
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
+  if (!mounted) return null; // Prevenimos flash de contenido sin animar
 
 
   return (
@@ -297,8 +262,7 @@ export const Features = () => {
             <FeatureCard
               key={feature.id}
               feature={feature}
-              customIndex={index + 2}
-              variants={motionVariants}
+              customIndex={index}
             />
           ))}
         </div>

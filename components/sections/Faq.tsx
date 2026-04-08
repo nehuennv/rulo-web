@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, MessageCircleQuestion } from "lucide-react";
 
@@ -28,7 +28,7 @@ const faqsData = [
 ];
 
 /* Animaciones del listado */
-const fadeUpVariants = {
+const motionVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
@@ -57,11 +57,11 @@ const AccordionItem = ({
 }) => {
   return (
     <motion.div
-      variants={fadeUpVariants}
+      variants={motionVariants}
       custom={index}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: "-10% 0px" }}
       className={`group relative overflow-visible rounded-xl border transition-all duration-300 transform-gpu ${isOpen
 
         ? "bg-white/[0.03] border-brand-terracotta/30 shadow-[0_0_30px_rgba(201,82,59,0.05)]"
@@ -111,6 +111,13 @@ const AccordionItem = ({
 
 export const Faq = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   /* 3. SEO: Generamos el JSON-LD dinámicamente para inyectarlo en el DOM.
      Esto es obligatorio para que Google muestre las Rich Snippets de Preguntas Frecuentes. */
@@ -146,7 +153,7 @@ export const Faq = () => {
         {/* ----- HEADING ----- */}
         <div className="flex flex-col items-center text-center w-full mb-10 sm:mb-14 lg:mb-16">
           <motion.div
-            variants={fadeUpVariants} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            variants={motionVariants} custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10% 0px" }}
             className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6"
           >
             <span className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/50"></span>
@@ -158,7 +165,7 @@ export const Faq = () => {
           </motion.div>
 
           <motion.h2
-            variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
+            variants={motionVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-6 sm:mb-8"
           >
             Preguntas <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">Frecuentes.</span>

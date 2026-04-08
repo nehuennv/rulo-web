@@ -30,9 +30,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "rulo - Recuperá ventas perdidas con IA",
+  metadataBase: new URL("https://somosrulo.com"),
+  title: "rulo. | Monetizá la Demanda Oscura y Recuperá tu Capital con IA",
   description:
-    "Rulo convierte visitas en clientes con mensajes automáticos de WhatsApp. El carrito abandonado para tiendas físicas.",
+    "rulo es la IA que ilumina los leads que pagaste y nunca cerraste. Recuperación automática de ventas por WhatsApp con ROI garantizado y auditoría 24/7.",
+  keywords: [
+    "Demanda Oscura",
+    "Recuperación de Capital",
+    "IA para ventas",
+    "WhatsApp Marketing",
+    "Meta Ads ROI",
+    "Auditoría de Ventas",
+    "rulo",
+    "somosrulo",
+  ],
+  authors: [{ name: "rulo Team" }],
+  openGraph: {
+    title: "rulo. | Monetizá la Demanda Oscura",
+    description: "Recuperación automática de ventas con IA. Dejá de perder capital en WhatsApp hoy.",
+    url: "https://somosrulo.com",
+    siteName: "rulo.",
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "rulo. | Monetizá la Demanda Oscura",
+    description: "Recuperación automática de ventas con IA. ROI garantizado.",
+  },
   icons: {
     icon: [
       { url: "/favicon/favicon.ico", sizes: "48x48" },
@@ -52,6 +77,17 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: "rulo.",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -68,8 +104,6 @@ export default function RootLayout({
         <SplashScreen>
           <SmoothScrolling>
             {children}
-            <FloatingNav />
-            <FloatingContact />
           </SmoothScrolling>
         </SplashScreen>
       </body>

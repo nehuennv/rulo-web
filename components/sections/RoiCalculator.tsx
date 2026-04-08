@@ -34,22 +34,17 @@ import { Package, RefreshCcwDot, CircleDollarSign, ChevronDown } from "lucide-re
 import type { ReactNode } from "react";
 
 // ─── Variantes ────────────────────────────────────────────────────────────────
-const fadeUpVariants = {
+const motionVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
+      delay: i * 0.1,
       duration: 0.8,
       ease: [0.2, 0.65, 0.3, 0.9] as const,
     },
   }),
-};
-
-const staticVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.3 } },
 };
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -60,20 +55,20 @@ interface VariableCardProps {
   value: string;       // número grande: "$80.000"
   unit: string;        // "por lead"
   custom: number;
-  variants: typeof fadeUpVariants | typeof staticVariants;
 }
 
 // ─── Sub-componente: Variable Card ───────────────────────────────────────────
-function VariableCard({ icon, label, description, value, unit, custom, variants }: VariableCardProps) {
+function VariableCard({ icon, label, description, value, unit, custom }: VariableCardProps) {
   return (
     <motion.article
-      variants={variants}
+      variants={motionVariants}
       custom={custom}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-10% 0px" }}
+      whileHover={{ y: -4 }} // Sutil
       aria-label={`${label}: ${description} — ${value} ${unit}`}
-      className="group relative flex-1 w-full flex flex-col items-center text-center p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm transition-all duration-300 transform-gpu will-change-transform lg:hover:bg-white/[0.03] lg:hover:-translate-y-1.5 lg:hover:shadow-2xl lg:hover:border-white/10 overflow-visible"
+      className="group relative flex-1 w-full flex flex-col items-center text-center p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-white/5 bg-white/[0.015] backdrop-blur-sm transition-colors transition-shadow duration-300 lg:hover:bg-white/[0.03]  lg:hover:shadow-2xl lg:hover:border-white/10 overflow-visible"
 
     >
       {/* Glow interno */}
@@ -118,21 +113,19 @@ function VariableCard({ icon, label, description, value, unit, custom, variants 
 function Operator({
   symbol,
   custom,
-  variants,
   isResult = false,
 }: {
   symbol: "+" | "=";
   custom: number;
-  variants: typeof fadeUpVariants | typeof staticVariants;
   isResult?: boolean;
 }) {
   return (
     <motion.div
-      variants={variants}
+      variants={motionVariants}
       custom={custom}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-10% 0px" }}
       aria-hidden="true"
       className="flex-shrink-0 flex items-center justify-center z-10"
     >
@@ -154,13 +147,12 @@ function Operator({
 // ─── Componente principal ─────────────────────────────────────────────────────
 export const RoiCalculator = () => {
   const [mounted, setMounted] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const motionVariants = mounted && shouldReduceMotion ? staticVariants : fadeUpVariants;
+  if (!mounted) return null;
 
 
   return (
@@ -184,7 +176,7 @@ export const RoiCalculator = () => {
             custom={0}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6"
           >
             <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/60" />
@@ -200,7 +192,7 @@ export const RoiCalculator = () => {
             custom={1}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
             Una decisión financiera{" "}
@@ -215,7 +207,7 @@ export const RoiCalculator = () => {
             custom={2}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/80 font-light leading-relaxed px-2"
           >
             No vendemos tecnología. Optimizamos el CAC que ya pagaste. Cada lead recuperado
@@ -233,7 +225,6 @@ export const RoiCalculator = () => {
           - md+: fila con operadores en círculo entre variables
         */}
         <div className="flex flex-col md:flex-row items-stretch justify-center w-full max-w-4xl mx-auto gap-3 sm:gap-4 md:gap-0">
-
           {/* Variable A */}
           <VariableCard
             icon={<Package className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />}
@@ -242,12 +233,11 @@ export const RoiCalculator = () => {
             value="$80.000"
             unit="por lead invertido"
             custom={3}
-            variants={motionVariants}
           />
 
           {/* Operador + */}
           <div className="flex items-center justify-center md:px-3 lg:px-5">
-            <Operator symbol="+" custom={4} variants={motionVariants} />
+            <Operator symbol="+" custom={4} />
           </div>
 
           {/* Variable B */}
@@ -258,14 +248,12 @@ export const RoiCalculator = () => {
             value="2 cierres"
             unit="de $1.500.000 c/u"
             custom={5}
-            variants={motionVariants}
           />
-
         </div>
 
         {/* Operador = */}
         <div className="flex justify-center my-4 sm:my-5">
-          <Operator symbol="=" custom={6} variants={motionVariants} isResult />
+          <Operator symbol="=" custom={6} isResult />
         </div>
 
         {/* ── Card resultado ── */}
@@ -274,7 +262,8 @@ export const RoiCalculator = () => {
           custom={7}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          whileHover={{ y: -4 }} // Sutil
           aria-label="Resultado: $3.000.000 de capital recuperado sobre inversión publicitaria previa"
           className="group relative w-full flex flex-col items-center justify-center text-center p-7 sm:p-10 md:p-14 rounded-xl sm:rounded-2xl border border-brand-success/25 bg-white/[0.015] backdrop-blur-md overflow-visible transition-all duration-500 transform-gpu will-change-transform lg:hover:-translate-y-2 lg:hover:shadow-[0_0_80px_rgba(82,183,136,0.12)] lg:hover:bg-white/[0.03]"
 
@@ -319,7 +308,7 @@ export const RoiCalculator = () => {
           custom={8}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-10% 0px" }}
           className="mt-8 sm:mt-12 lg:mt-14 flex justify-center"
         >
           <div className="max-w-2xl text-center px-4 sm:px-8 py-5 sm:py-6 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md">

@@ -9,17 +9,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getCalApi } from "@calcom/embed-react";
 
 // ─── Constantes de Cal.com ────────────────────────────────────────────────────
-const CAL_NAMESPACE = "30min";
-const CAL_LINK = "somosrulo/30min";
+const CAL_NAMESPACE = "primer-reunion";
+const CAL_LINK = "somosrulo/primer-reunion";
 
 // ─── Variantes de animación ───────────────────────────────────────────────────
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 30 },
+const motionVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
+      delay: i * 0.1,
       duration: 0.8,
       ease: [0.2, 0.65, 0.3, 0.9] as const,
     },
@@ -60,22 +60,19 @@ const TRUST_ITEMS = [
 // ─── Componente principal ─────────────────────────────────────────────────────
 export function HeroBlock() {
   const [mounted, setMounted] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false); // Detectamos pantalla grande
+  const [isDesktop, setIsDesktop] = useState(false);
   const splashDone = useSplashDone();
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
-    // OPTIMIZACIÓN: Solo montamos las animaciones flotantes pesadas si hay espacio (> 1536px que es 2xl)
     const checkScreenSize = () => setIsDesktop(window.innerWidth >= 1536);
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  const isReduced = mounted && shouldReduceMotion;
   const animState = splashDone ? "visible" : "hidden";
-
   const calInitialized = useRef(false);
 
   useEffect(() => {
@@ -88,7 +85,7 @@ export function HeroBlock() {
         theme: "light",
         cssVarsPerTheme: {
           light: { "cal-brand": "#C9523B" },
-          dark: { "cal-brand": "#E2735E" },
+          dark: { "cal-brand": "#C9523B" },
         },
         hideEventTypeDetails: false,
         layout: "month_view",
@@ -107,9 +104,10 @@ export function HeroBlock() {
     });
   }, []);
 
+  if (!mounted) return null;
+
   return (
     <section
-      /* RESPONSIVIDAD: Cambiamos h-screen fijo por un padding top considerable para asegurar que en móviles chicos se pueda scrollear sin recortar contenido */
       className="relative w-full min-h-[100svh] flex items-center justify-center pt-24 pb-12 sm:pt-0 sm:pb-0"
       aria-label="Hero — rulo"
     >
@@ -126,13 +124,12 @@ export function HeroBlock() {
         className="absolute bottom-0 left-0 w-[clamp(200px,40vw,600px)] h-[clamp(200px,35vw,500px)] bg-brand-dark-lightest/15 blur-[100px] md:blur-[150px] rounded-full pointer-events-none mix-blend-screen"
       />
 
-      {/* OPTIMIZACIÓN MÓVIL: Renderizado Condicional de las Floating Cards para no agotar recursos en celulares */}
-      {mounted && isDesktop && (
+      {isDesktop && (
         <>
           <motion.div
             aria-hidden="true"
             initial="hidden"
-            animate={isReduced ? (splashDone ? "visible" : "hidden") : animState}
+            animate={animState}
             variants={floatLeftVariants}
             whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.3 } }}
             className="absolute top-[28%] left-[4%] max-w-[260px] z-20 flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[-3deg] shadow-2xl pointer-events-auto cursor-default hidden 2xl:flex"
@@ -158,7 +155,7 @@ export function HeroBlock() {
           <motion.div
             aria-hidden="true"
             initial="hidden"
-            animate={isReduced ? (splashDone ? "visible" : "hidden") : animState}
+            animate={animState}
             variants={floatRightVariants}
             whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.3 } }}
             className="absolute bottom-[28%] right-[4%] max-w-[240px] z-20 flex-col gap-3 p-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[2deg] shadow-2xl pointer-events-auto cursor-default hidden 2xl:flex"
@@ -180,20 +177,17 @@ export function HeroBlock() {
         </>
       )}
 
-      {/* ── Contenido principal ── */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-
         <motion.div
           custom={0}
           initial="hidden"
           animate={animState}
-          variants={fadeUpVariants}
+          variants={motionVariants}
           className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-6 sm:mb-10 px-2"
         >
           <div
             className="flex items-center gap-2 bg-brand-terracotta/10 border border-brand-terracotta/20 px-3 py-1 rounded-sm"
             role="status"
-            aria-label="Sistema activo: Auditoría 24/7"
           >
             <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
               <span className="animate-ping absolute inline-flex h-full w-full bg-brand-terracotta opacity-75" />
@@ -209,12 +203,11 @@ export function HeroBlock() {
           </span>
         </motion.div>
 
-        {/* SEO Y RESPONSIVIDAD: Agregué text-balance para que en mobile no quede una palabra colgada sola en la última línea */}
         <motion.h1
           custom={1}
           initial="hidden"
           animate={animState}
-          variants={fadeUpVariants}
+          variants={motionVariants}
           className="font-accent text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-medium tracking-normal text-white leading-[1.1] mb-5 sm:mb-8 w-full text-balance"
         >
           <span className="block">Monetizá la demanda</span>
@@ -229,12 +222,11 @@ export function HeroBlock() {
           </span>
         </motion.h1>
 
-        {/* SEO: text-balance en el subtítulo también */}
         <motion.p
           custom={2}
           initial="hidden"
           animate={animState}
-          variants={fadeUpVariants}
+          variants={motionVariants}
           className="font-sans text-sm sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 max-w-4xl mx-auto mb-8 sm:mb-10 lg:mb-12 leading-relaxed font-light px-0 sm:px-2 md:text-balance"
         >
           <span className="font-brand font-medium tracking-tighter text-brand-bone text-[1.05em]">
@@ -251,13 +243,12 @@ export function HeroBlock() {
           custom={3}
           initial="hidden"
           animate={animState}
-          variants={fadeUpVariants}
+          variants={motionVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 w-full sm:w-auto"
         >
           <button
             type="button"
             onClick={openCalModal}
-            aria-label="Solicitar auditoría gratuita"
             className="group relative flex items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-5 bg-brand-terracotta text-white font-extrabold rounded-[2px] text-base sm:text-lg lg:text-xl transition-all hover:bg-brand-terracotta-hover hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(201,82,59,0.5)] active:translate-y-0 overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
             <span
@@ -283,23 +274,21 @@ export function HeroBlock() {
           </Link>
         </motion.div>
 
-        {/* TRUST INDICATORS: Agregué flex-wrap y ajuste de paddings en mobile */}
         <motion.div
           custom={4}
           initial="hidden"
           animate={animState}
-          variants={fadeUpVariants}
+          variants={motionVariants}
           className="mt-10 sm:mt-16 lg:mt-20 pt-6 sm:pt-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-10 lg:gap-12 w-full max-w-4xl"
           role="list"
-          aria-label="Características principales"
         >
           {TRUST_ITEMS.map((item) => (
             <div
               key={item.title}
               role="listitem"
-              className="flex flex-row md:flex-col items-center justify-start md:justify-center gap-4 md:gap-2 group cursor-default transition-transform duration-300 transform-gpu lg:hover:-translate-y-1.5 py-3 px-2 md:p-0 border-b border-brand-bone/10 md:border-b-0 last:border-b-0"
+              className="flex flex-row md:flex-col items-center justify-start md:justify-center gap-4 md:gap-2 group cursor-default transition-transform duration-300 transform-gpu  py-3 px-2 md:p-0 border-b border-brand-bone/10 md:border-b-0 last:border-b-0"
             >
-              <div className="text-brand-terracotta/60 transition-all duration-300 transform-gpu lg:group-hover:text-brand-terracotta lg:group-hover:scale-110 lg:group-hover:drop-shadow-[0_0_8px_rgba(201,82,59,0.8)] shrink-0 flex-none">
+              <div className="text-brand-terracotta/60 transition-all duration-300 transform-gpu lg:group-hover:text-brand-terracotta lg:group-hover:scale-110 shrink-0 flex-none">
                 {item.icon}
               </div>
               <div className="text-left md:text-center flex-1">
@@ -313,7 +302,6 @@ export function HeroBlock() {
             </div>
           ))}
         </motion.div>
-
       </div>
     </section>
   );
