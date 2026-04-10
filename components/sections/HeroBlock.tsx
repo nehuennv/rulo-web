@@ -26,28 +26,30 @@ const motionVariants = {
   }),
 };
 
-const floatLeftVariants = {
+const floatEnterLeft = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: [0, -10, 0],
-    transition: {
-      opacity: { delay: 0.6, duration: 1 },
-      y: { delay: 0.6, repeat: Infinity, duration: 6, ease: "easeInOut" as const },
-    },
+    transition: { delay: 0.6, duration: 1 },
   },
 };
 
-const floatRightVariants = {
+const floatEnterRight = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: [0, 10, 0],
-    transition: {
-      opacity: { delay: 0.8, duration: 1 },
-      y: { delay: 1.4, repeat: Infinity, duration: 5, ease: "easeInOut" as const },
-    },
+    transition: { delay: 0.8, duration: 1 },
   },
+};
+
+const floatLoopLeft = {
+  y: [0, -10, 0],
+  transition: { repeat: Infinity, duration: 6, ease: "easeInOut" as const },
+};
+
+const floatLoopRight = {
+  y: [0, 10, 0],
+  transition: { repeat: Infinity, duration: 5, ease: "easeInOut" as const },
 };
 
 // ─── Trust indicators data ────────────────────────────────────────────────────
@@ -126,51 +128,65 @@ export function HeroBlock() {
 
       {isDesktop && (
         <>
+          {/* ── Bento izquierda ── */}
           <motion.div
             aria-hidden="true"
             initial="hidden"
             animate={animState}
-            variants={floatLeftVariants}
-            className="absolute top-[28%] left-[4%] max-w-[260px] z-20 flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[-3deg] shadow-2xl pointer-events-none cursor-default hidden 2xl:flex"
+            variants={floatEnterLeft}
+            className="absolute top-[28%] left-[4%] z-20 pointer-events-none hidden 2xl:block"
           >
-            <div className="flex items-center gap-2 mb-1">
-              <Bot className="w-4 h-4 text-brand-terracotta" aria-hidden="true" />
-              <span className="font-mono text-[10px] text-brand-terracotta uppercase tracking-widest">
-                Lead entrante · 23:47
-              </span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="font-sans text-xs text-brand-bone/50">Lead:</span>
-              <p className="font-sans text-sm text-brand-bone/90 font-medium">
-                &quot;Hola, ¿tienen stock en negro?&quot;
+            <motion.div
+              animate={floatLoopLeft}
+              className="max-w-[260px] flex flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[-3deg] shadow-2xl cursor-default transition-shadow duration-300 hover:shadow-[0_0_60px_rgba(201,82,59,0.12)] hover:border-brand-terracotta/20"
+              style={{ pointerEvents: "auto" }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <Bot className="w-4 h-4 text-brand-terracotta" aria-hidden="true" />
+                <span className="font-mono text-[10px] text-brand-terracotta uppercase tracking-widest">
+                  Lead entrante · 23:47
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-sans text-xs text-brand-bone/50">Lead:</span>
+                <p className="font-sans text-sm text-brand-bone/90 font-medium">
+                  &quot;Hola, ¿tienen stock en negro?&quot;
+                </p>
+              </div>
+              <div className="w-full h-[1px] bg-brand-bone/10 my-1" />
+              <p className="font-sans text-xs text-brand-success font-medium tracking-wide">
+                → rulo respondió en 4 segundos
               </p>
-            </div>
-            <div className="w-full h-[1px] bg-brand-bone/10 my-1" />
-            <p className="font-sans text-xs text-brand-success font-medium tracking-wide">
-              → rulo respondió en 4 segundos
-            </p>
+            </motion.div>
           </motion.div>
 
+          {/* ── Bento derecha ── */}
           <motion.div
             aria-hidden="true"
             initial="hidden"
             animate={animState}
-            variants={floatRightVariants}
-            className="absolute bottom-[28%] right-[4%] max-w-[240px] z-20 flex-col gap-3 p-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[2deg] shadow-2xl pointer-events-none cursor-default hidden 2xl:flex"
+            variants={floatEnterRight}
+            className="absolute bottom-[28%] right-[4%] z-20 pointer-events-none hidden 2xl:block"
           >
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-4 h-4 text-brand-success" aria-hidden="true" />
-              <span className="font-mono text-[10px] text-brand-success uppercase tracking-widest">
-                Visita confirmada
-              </span>
-            </div>
-            <p className="font-sans text-xl text-white font-bold tracking-tight">&quot;Paso mañana a las 11&quot;</p>
-            <div className="flex items-center gap-2 mt-1">
-              <div className="w-2 h-2 rounded-full bg-brand-success animate-pulse" aria-hidden="true" />
-              <p className="font-sans text-xs text-brand-bone/50 uppercase tracking-widest">
-                Cerrado · 00:02 AM
-              </p>
-            </div>
+            <motion.div
+              animate={floatLoopRight}
+              className="max-w-[240px] flex flex-col gap-3 p-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[2deg] shadow-2xl cursor-default transition-shadow duration-300 hover:shadow-[0_0_60px_rgba(201,82,59,0.12)] hover:border-brand-terracotta/20"
+              style={{ pointerEvents: "auto" }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <TrendingUp className="w-4 h-4 text-brand-success" aria-hidden="true" />
+                <span className="font-mono text-[10px] text-brand-success uppercase tracking-widest">
+                  Visita confirmada
+                </span>
+              </div>
+              <p className="font-sans text-xl text-white font-bold tracking-tight">&quot;Paso mañana a las 11&quot;</p>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="w-2 h-2 rounded-full bg-brand-success animate-pulse" aria-hidden="true" />
+                <p className="font-sans text-xs text-brand-bone/50 uppercase tracking-widest">
+                  Cerrado · 00:02 AM
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
         </>
       )}

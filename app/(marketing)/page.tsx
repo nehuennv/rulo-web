@@ -9,6 +9,7 @@ import { RoiCalculator } from "@/components/sections/RoiCalculator";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
+import { DemoPromo } from "@/components/DemoPromo";
  
 export default function LandingPage() {
   return (
@@ -29,6 +30,9 @@ export default function LandingPage() {
         <Faq />
         <Footer />
       </div>
+
+      {/* Promo modal — once per session, ~8s after load */}
+      <DemoPromo />
     </main>
   );
 }
