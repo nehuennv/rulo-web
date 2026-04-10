@@ -47,18 +47,18 @@ interface PainCard {
 const PAIN_CARDS: PainCard[] = [
   {
     icon: <Wallet className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />,
-    title: "CAC infinito",
-    desc: "Cuando un lead de $80.000 en pauta no cierra, tu costo de adquisición no es cero: es infinito.",
+    title: "El costo del silencio",
+    desc: "Cada mensaje sin responder fuera de horario es una venta que se fue. Sin ruido, sin aviso. Solo se fue.",
   },
   {
     icon: <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />,
-    title: "Ceguera financiera",
-    desc: "Tu competencia de e-commerce mide todo. Vos operás a oscuras en el canal que más vende.",
+    title: "El cliente no avisa",
+    desc: "No te manda un mail diciéndote que se cansó de esperar. Simplemente compra en otro lado.",
   },
   {
     icon: <Activity className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />,
-    title: "Cero trazabilidad",
-    desc: "No sabés cuánta demanda ni facturación real estás perdiendo exactamente por día.",
+    title: "Escala imposible",
+    desc: "Contratar más vendedores no resuelve las 11pm del domingo. rulo sí.",
   },
 ];
 
@@ -120,9 +120,9 @@ export const ProblemAgitation = () => {
           >
             <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-terracotta/80 shrink-0" />
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-terracotta uppercase">
-              El Agujero Negro{" "}
+              El problema real{" "}
               <span aria-hidden="true">//</span>{" "}
-              Tu Mayor Pérdida
+              Lo que te cuesta no verlo
             </span>
           </motion.div>
 
@@ -140,9 +140,9 @@ export const ProblemAgitation = () => {
               Fix responsividad: removido whitespace-nowrap en mobile.
               En lg+ se puede usar nowrap porque hay espacio suficiente.
             */}
-            <span className="block lg:whitespace-nowrap">70% de tu pauta</span>
+            <span className="block lg:whitespace-nowrap">Tu mejor vendedor</span>
             <span className="block font-accent italic tracking-normal text-brand-terracotta lg:whitespace-nowrap">
-              muere en silencio.
+              desconecta a las 18hs.
             </span>
           </motion.h2>
 
@@ -156,16 +156,13 @@ export const ProblemAgitation = () => {
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/80 leading-relaxed font-light mt-1 sm:mt-2 max-w-none sm:max-w-lg lg:max-w-none"
           >
             <p>
-              En e-commerce, cada peso se mide: clicks, conversiones, ROAS. Pero en tu
-              WhatsApp hay un agujero negro. Invertís en Meta Ads para que el lead llegue,
-              pregunta el precio, y desaparece.{" "}
+              El cliente moderno no espera. Escribe a las 10 de la noche, el finde, en el momento en que quiere comprar. Si no hay respuesta en minutos, cierra la app y le compra al siguiente.{" "}
               <strong className="text-white font-bold underline decoration-brand-terracotta decoration-2 underline-offset-4">
-                Eso es demanda oscura.
+                Tu equipo es humano.
               </strong>
             </p>
             <p className="mt-3 sm:mt-4 text-brand-bone/60 text-sm sm:text-base">
-              Capital que ya pagaste y nunca pudiste cobrar. Sin trazabilidad. Sin datos.
-              Millones evaporándose por día.
+              rulo cubre lo que ningún vendedor puede: el horario donde más se decide y menos estás.
             </p>
           </motion.div>
         </div>

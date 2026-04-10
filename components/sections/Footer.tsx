@@ -8,7 +8,7 @@ export const Footer = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "SISTEMAS RULO",
-    "description": "El eslabón de IA perdido entre tu pauta y el mostrador. Agente de recuperación de ventas para comercio físico.",
+    "description": "El vendedor de IA que cierra cuando tu equipo descansa. Agente de ventas 24/7.",
     "email": "somosrulo.soporte@gmail.com",
     "sameAs": [
       "https://www.instagram.com/somosrulo"
@@ -46,7 +46,7 @@ export const Footer = () => {
         {/* BLOQUE DERECHO: ESLOGAN Y LEGALES */}
         <div className="flex flex-col items-center md:items-end text-center md:text-right w-full md:w-auto">
           <p className="font-sans text-white/80 font-bold text-xl sm:text-2xl lg:text-3xl tracking-tight max-w-[25ch] sm:max-w-[35ch] leading-[1.2] mb-6 sm:mb-8">
-            El eslabón de IA perdido <br /> entre tu pauta y el mostrador.
+            El vendedor de IA que cierra <br /> cuando tu equipo descansa.
           </p>
 
           <div className="w-12 sm:w-16 h-[2px] bg-white/20 mb-6 sm:mb-8" aria-hidden="true" />

@@ -98,7 +98,7 @@ export function HeroBlock() {
       calLink: CAL_LINK,
       config: {
         layout: "month_view",
-        hideEventTypeDetails: "true",
+        useSlotsViewOnSmallScreen: "true",
         theme: "light",
       },
     });
@@ -137,18 +137,18 @@ export function HeroBlock() {
             <div className="flex items-center gap-2 mb-1">
               <Bot className="w-4 h-4 text-brand-terracotta" aria-hidden="true" />
               <span className="font-mono text-[10px] text-brand-terracotta uppercase tracking-widest">
-                Interceptando #0482
+                Lead entrante · 23:47
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="font-sans text-xs text-brand-bone/50">Demanda Oscura:</span>
+              <span className="font-sans text-xs text-brand-bone/50">Lead:</span>
               <p className="font-sans text-sm text-brand-bone/90 font-medium">
-                &quot;Hola, dejé mi carrito ayer...&quot;
+                &quot;Hola, ¿tienen stock del modelo negro?&quot;
               </p>
             </div>
             <div className="w-full h-[1px] bg-brand-bone/10 my-1" />
             <p className="font-sans text-xs text-brand-success font-medium tracking-wide">
-              → Ejecutando protocolo de recuperación
+              → rulo respondió en 4 segundos
             </p>
           </motion.div>
 
@@ -163,14 +163,14 @@ export function HeroBlock() {
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-4 h-4 text-brand-success" aria-hidden="true" />
               <span className="font-mono text-[10px] text-brand-success uppercase tracking-widest">
-                Capital Recuperado
+                Visita confirmada
               </span>
             </div>
-            <p className="font-sans text-xl text-white font-bold tracking-tight">+$1.200.000 ARS</p>
+            <p className="font-sans text-xl text-white font-bold tracking-tight">&quot;Paso mañana a las 11&quot;</p>
             <div className="flex items-center gap-2 mt-1">
               <div className="w-2 h-2 rounded-full bg-brand-success animate-pulse" aria-hidden="true" />
               <p className="font-sans text-xs text-brand-bone/50 uppercase tracking-widest">
-                Acreditado 03:41 AM
+                Cerrado · 00:02 AM
               </p>
             </div>
           </motion.div>
@@ -194,12 +194,12 @@ export function HeroBlock() {
               <span className="relative inline-flex h-1.5 w-1.5 bg-brand-terracotta" />
             </span>
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-terracotta uppercase">
-              Auditoría 24/7
+              Vendedor IA · 24/7
             </span>
           </div>
           <span className="hidden sm:block w-8 h-[1px] bg-brand-bone/20" aria-hidden="true" />
           <span className="hidden sm:block font-sans text-[10px] sm:text-xs font-medium tracking-widest text-brand-bone/60 uppercase text-center text-balance">
-            Recuperando lo que dabas por muerto
+            Cerrando ventas mientras dormís
           </span>
         </motion.div>
 
@@ -210,14 +210,14 @@ export function HeroBlock() {
           variants={motionVariants}
           className="font-accent text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-medium tracking-normal text-white leading-[1.1] mb-5 sm:mb-8 w-full text-balance"
         >
-          <span className="block">Monetizá la demanda</span>
+          <span className="block">Tu negocio vende.</span>
           <span className="relative inline-block">
             <span
               aria-hidden="true"
               className="absolute inset-0 bg-brand-terracotta opacity-10 blur-2xl rounded-full"
             />
             <span className="relative italic font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-terracotta via-brand-terracotta-light to-brand-terracotta bg-[length:200%_auto] animate-[gradient_3s_ease-in-out_infinite]">
-              que ya generaste.
+              Aunque no estés.
             </span>
           </span>
         </motion.h1>
@@ -232,11 +232,11 @@ export function HeroBlock() {
           <span className="font-brand font-medium tracking-tighter text-brand-bone text-[1.05em]">
             rulo
           </span>{" "}
-          es la IA que ilumina tu{" "}
+          es el agente de IA que responde, convence y confirma visitas por WhatsApp las{" "}
           <span className="text-white font-medium underline decoration-brand-terracotta decoration-2 underline-offset-4">
-            demanda oscura
+            24 horas
           </span>
-          : los leads que pagaste y nunca cerraste. Recuperación automática, medible y garantizada.
+          . Sin sueldo, sin pausas, sin leads perdidos a las 11 de la noche.
         </motion.p>
 
         <motion.div
@@ -266,7 +266,7 @@ export function HeroBlock() {
             href="#roi"
             className="group flex items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-5 bg-transparent backdrop-blur-sm text-brand-bone font-bold text-base sm:text-lg lg:text-xl border-b border-brand-bone/30 hover:border-brand-terracotta hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
-            <span className="font-sans">Ver la matemática</span>
+            <span className="font-sans">Ver cómo funciona</span>
             <ArrowDown
               className="w-4 h-4 sm:w-5 sm:h-5 opacity-70 transition-transform group-hover:translate-y-1.5 group-hover:text-brand-terracotta"
               aria-hidden="true"

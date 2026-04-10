@@ -33,7 +33,7 @@ export const Integrations = () => {
           >
             <span className="w-6 sm:w-8 h-[1px] bg-brand-bone/30"></span>
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-bone/60 uppercase">
-              Omnicanalidad Real
+              Donde está tu cliente
             </span>
             <span className="w-6 sm:w-8 h-[1px] bg-brand-bone/30"></span>
           </motion.div>
@@ -42,15 +42,15 @@ export const Integrations = () => {
             variants={fadeUpVariants} custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold sm:font-black tracking-tight text-white leading-[1.05] mb-6"
           >
-            Interceptamos tu demanda <br className="hidden sm:block" />
-            <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">en cada canal.</span>
+            Capturamos cada oportunidad. <br className="hidden sm:block" />
+            <span className="font-accent italic text-brand-terracotta tracking-normal pr-2 sm:pr-4">En cada canal.</span>
           </motion.h2>
  
           <motion.p
             variants={fadeUpVariants} custom={2} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/70 leading-relaxed font-light"
           >
-            <strong className="font-brand font-bold tracking-tighter text-brand-bone">rulo<span className="text-brand-terracotta-light">.</span></strong> no es un bot de Instagram. Es una capa de infraestructura que conecta tu operación completa: el chat de WhatsApp y el checkout abandonado de tu tienda digital.
+            <strong className="font-brand font-bold tracking-tighter text-brand-bone">rulo<span className="text-brand-terracotta-light">.</span></strong> no es un bot de Instagram. Es una capa de ventas que conecta tu WhatsApp con tu tienda digital y convierte ambos canales en un solo flujo de cierre.
           </motion.p>
         </div>
  
@@ -93,7 +93,7 @@ export const Integrations = () => {
             
             <h3 className="font-accent italic text-white font-bold text-2xl lg:text-3xl mb-4 tracking-wide">Tiendanube</h3>
             <p className="font-sans text-brand-bone/60 leading-relaxed text-sm lg:text-base">
-              Interceptamos checkouts abandonados y los convertimos en visitas al mostrador. Unificamos tu canal digital y físico en un solo flujo de recuperación.
+              Detectamos cuando alguien abandona el checkout y activamos el protocolo de recuperación antes de que la intención de compra se enfríe.
             </p>
           </motion.div>
  

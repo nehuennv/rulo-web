@@ -14,16 +14,16 @@ const faqsData = [
     answer: "Cero riesgo operando con nosotros. rulo usa exclusivamente la Meta API Oficial, la misma infraestructura que usan las empresas Fortune 500. A diferencia de apps de terceros o extensiones de Chrome, tu número opera bajo el ecosistema de Meta directamente. El proceso incluye validación de identidad (CUIT y documentación legal), lo que convierte tu operación en un canal empresarial certificado."
   },
   {
-    question: "¿Cómo garantizan que la IA no da información errónea?",
-    answer: "rulo no es un chat de texto libre que \"alucina\" respuestas. Es una Máquina de Estados Finita (FSM) con reglas rígidas: el agente solo puede ejecutar acciones predefinidas dentro de un flujo de recuperación. Si el cliente pregunta algo fuera del protocolo de reserva, el sistema se detiene automáticamente y transfiere: \"Te paso con un asesor del local\". No hay improvisación posible."
+    question: "¿Cómo garantizan que la IA no dice cosas incorrectas?",
+    answer: "rulo no improvisa. Opera dentro de un flujo de ventas definido con reglas rígidas: responde solo lo que sabe, dentro del protocolo de tu negocio. Si el cliente pregunta algo fuera del guión, el sistema transfiere automáticamente: \"Te paso con un asesor del local\". Sin alucinaciones. Sin sorpresas."
   },
   {
     question: "¿Esto va a reemplazar a mis vendedores?",
-    answer: "Al revés. rulo hace el trabajo que destruye la productividad de tu equipo: el seguimiento de leads fríos. El agente recupera al cliente y confirma la visita. Tu vendedor recibe una notificación privada con el cliente listo para pagar. Eliminamos el trabajo sucio y le devolvemos al equipo solo los momentos de cobro."
+    answer: "No. rulo hace el trabajo que destruye su productividad: responder a las 11pm, seguir leads fríos, contestar siempre lo mismo. Tu equipo recibe una alerta cuando el cliente ya está listo para pagar. Ellos solo cobran."
   },
   {
-    question: "¿Cómo miden si el sistema funcionó?",
-    answer: "Nuestro KPI es la cantidad de demanda oscura que el sistema convierte en visitas confirmadas o re-interés legítimo en la compra. El tracking es inmutable: cada interacción queda registrada en el sistema. Vos podés ver exactamente qué leads fueron recuperados, cuándo y con qué protocolo."
+    question: "¿Cómo sé si realmente funcionó?",
+    answer: "Cada conversación queda registrada. Sabés exactamente cuántos leads entró rulo, cuántos respondió, cuántos confirmaron visita y cuántos cerraron. No hay caja negra: el tracking es tuyo."
   }
 ];
 

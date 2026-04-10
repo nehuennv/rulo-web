@@ -182,9 +182,7 @@ export const FinalCta = () => {
                 </strong>
               </p>
               <p className="mt-4 sm:mt-5 font-sans text-brand-bone/55 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto">
-                Pagás el setup para armar la infraestructura. Si en 30 días no recuperamos
-                el valor de tu inversión, te reintegramos el 100%. Un software que no se
-                paga solo no sirve.
+                Pagás el setup para armar la infraestructura. Si en 30 días rulo no genera más de lo que invertiste, te reintegramos el 100%. Un vendedor que no vende no sirve.
               </p>
             </motion.div>
 

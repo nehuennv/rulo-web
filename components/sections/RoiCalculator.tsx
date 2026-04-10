@@ -210,10 +210,9 @@ export const RoiCalculator = () => {
             viewport={{ once: true, margin: "-10% 0px" }}
             className="font-sans text-base sm:text-lg lg:text-xl text-brand-bone/80 font-light leading-relaxed px-2"
           >
-            No vendemos tecnología. Optimizamos el CAC que ya pagaste. Cada lead recuperado
-            no es venta nueva:{" "}
+            No vendemos tecnología. Vendemos ventas que hoy no estás cerrando. Cada cliente que{" "}
             <strong className="text-white font-medium">
-              es ganancia sobre inversión previa.
+              rulo convierte es ingreso que antes se iba solo.
             </strong>
           </motion.p>
         </div>
@@ -229,9 +228,9 @@ export const RoiCalculator = () => {
           <VariableCard
             icon={<Package className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />}
             label="Variable A"
-            description="CAC pagado en Meta Ads por lead sin cerrar"
-            value="$80.000"
-            unit="por lead invertido"
+            description="Leads que no cerrás fuera de horario por semana"
+            value="15"
+            unit="consultas sin respuesta"
             custom={3}
           />
 
@@ -244,9 +243,9 @@ export const RoiCalculator = () => {
           <VariableCard
             icon={<RefreshCcwDot className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />}
             label="Variable B"
-            description="rulo reactiva leads que dabas por perdidos"
-            value="2 cierres"
-            unit="de $1.500.000 c/u"
+            description="rulo convierte el 30% en visitas confirmadas"
+            value="4 cierres"
+            unit="adicionales"
             custom={5}
           />
         </div>
@@ -283,22 +282,22 @@ export const RoiCalculator = () => {
 
           {/* Label */}
           <p className="font-mono text-xs sm:text-sm text-brand-success font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-3 sm:mb-4">
-            Capital Recuperado
+            Facturación nueva
           </p>
 
           {/* Número resultado — máximo peso visual */}
           <h3 className="font-accent italic text-white font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight leading-none mb-1 sm:mb-2">
-            $3.000.000
+            4 ventas
           </h3>
           <p className="font-sans text-brand-bone/50 text-sm sm:text-base font-semibold uppercase tracking-widest mb-4 sm:mb-5">
-            extra
+            que antes no existían
           </p>
 
           {/* Separador */}
           <div aria-hidden="true" className="w-12 h-[1px] bg-brand-success/20 mb-4 sm:mb-5" />
 
           <p className="font-sans text-brand-bone/80 text-base sm:text-lg md:text-xl font-light max-w-md">
-            Sobre inversión publicitaria que ya estaba perdida.
+            Sobre el mismo volumen de tráfico que ya tenés.
           </p>
         </motion.article>
 
@@ -316,7 +315,7 @@ export const RoiCalculator = () => {
               El abono mensual fijo no varía.{" "}
               <br className="sm:hidden" />
               <strong className="text-white font-bold underline decoration-brand-success decoration-2 underline-offset-4 inline">
-                Cada recuperación adicional es margen neto directo.
+                Cada venta adicional es margen neto directo.
               </strong>
             </p>
           </div>

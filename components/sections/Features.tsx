@@ -36,7 +36,7 @@ const FEATURES: FeatureCard[] = [
   {
     id: "reaccion-tactica",
     icon: <Clock className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
-    title: "Reacción Táctica.",
+    title: "Respuesta inmediata.",
     glowColor: "terracotta",
     badge: (
       <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
@@ -45,25 +45,22 @@ const FEATURES: FeatureCard[] = [
           <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-terracotta" />
         </span>
         <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-brand-terracotta">
-          FOMO ACTIVO
+          RESPONDE EN 4 SEG
         </span>
       </div>
     ),
     body: (
       <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-        Sin disparos al azar.{" "}
+        En segundos, no en horas.{" "}
         <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl">rulo</span>{" "}
-        lee tu horario comercial y activa protocolos de escasez calibrados:{" "}
-        <em className="text-white italic">
-          &quot;Cerramos la caja, ¿te separo el equipo para mañana?&quot;
-        </em>
+        detecta la intención de compra, responde con contexto y mantiene viva la conversación hasta que el cliente dice que sí.
       </p>
     ),
   },
   {
     id: "trafico-fisico",
     icon: <Store className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
-    title: "Tráfico Físico.",
+    title: "Cierra con visita al local.",
     glowColor: "bone",
     badge: (
       <div className="bg-brand-bone/10 border border-brand-bone/20 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tr-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-sm">
@@ -75,10 +72,10 @@ const FEATURES: FeatureCard[] = [
     ),
     body: (
       <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-        No procesamos pagos online para blindar tu operación. El agente usa{" "}
-        <strong className="text-white font-medium">sesgo de escasez</strong>{" "}
-        (<em className="tracking-wide text-brand-bone/90">¿Te lo separo hoy?</em>) para
-        convertir leads digitales en visitas al local.
+        No prometemos magia online. El agente usa{" "}
+        <strong className="text-white font-medium">gatillos calibrados</strong>{" "}
+        (<em className="tracking-wide text-brand-bone/90">¿Te lo separo para mañana?</em>) para
+        convertir interés digital en presencia física. Tu vendedor solo cobra.
       </p>
     ),
   },
@@ -97,17 +94,17 @@ const FEATURES: FeatureCard[] = [
     ),
     body: (
       <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-        Modelo de abono plano. Si recuperamos 5 clientes o 50 en un día táctico, el
+        Cierre 5 ventas o 50 en un día, el
         costo es{" "}
         <strong className="text-white font-medium">exactamente el mismo</strong>. Tu
-        upside es ilimitado.
+        upside es ilimitado, tu costo no.
       </p>
     ),
   },
   {
     id: "aliado-vendedor",
     icon: <Users className="w-5 h-5 sm:w-7 sm:h-7" aria-hidden="true" />,
-    title: "El Mejor Aliado de tu Vendedor.",
+    title: "Trabaja con tu equipo, no contra él.",
     glowColor: "terracotta",
     badge: (
       <div className="bg-brand-terracotta/15 border border-brand-terracotta/30 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl rounded-tl-sm flex items-center gap-1.5 sm:gap-2 backdrop-blur-md shadow-[0_0_15px_rgba(201,82,59,0.1)]">
@@ -124,9 +121,9 @@ const FEATURES: FeatureCard[] = [
     ),
     body: (
       <p className="font-sans text-brand-bone/70 leading-relaxed text-sm sm:text-base md:text-lg">
-        No tocamos comisiones. Hacemos el trabajo sucio. Cuando hay visita confirmada,{" "}
+        Cuando hay visita confirmada,{" "}
         <span className="font-brand font-medium tracking-tighter text-brand-bone text-xl">rulo</span>{" "}
-        alerta al equipo por privado. Ellos solo cobran.
+        alerta al vendedor por privado. Ellos llegan al mostrador con el cliente listo. Nadie pierde comisión.
       </p>
     ),
   },
@@ -233,7 +230,7 @@ export const Features = () => {
             </span>
             <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-bone/30" />
             <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-bone/60 uppercase">
-              La Infraestructura Trabajando
+              Cómo opera rulo
             </span>
           </motion.div>
 
@@ -247,11 +244,11 @@ export const Features = () => {
             viewport={{ once: true, margin: "-80px" }}
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
-            Rescate de facturación.{" "}
+            Un vendedor que nunca se cansa.{" "}
             {/* <br> solo en sm+ para no partir raro en mobile muy angosto */}
             <span className="hidden sm:inline"><br /></span>
             <span className="font-accent italic text-brand-terracotta tracking-normal">
-              100% en automático.
+              Nunca se distrae. Nunca cierra.
             </span>
           </motion.h2>
         </div>

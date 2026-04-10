@@ -52,7 +52,7 @@ export const InterventionSection = () => {
             >
               <span className="w-8 h-[1px] bg-brand-terracotta" />
               <span className="font-mono text-xs font-bold tracking-widest text-brand-terracotta uppercase">
-                Protocolo de Intervención
+                Cómo cierra rulo
               </span>
             </motion.div>
 
@@ -66,15 +66,15 @@ export const InterventionSection = () => {
               className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight"
             >
               <span className="sm:hidden">
-                Tu equipo se rinde, <br />
+                Tu equipo se rinde. <br />
                 <span className="font-accent italic text-brand-terracotta">
-                  rulo salva la venta.
+                  rulo recién empieza.
                 </span>
               </span>
               <span className="hidden sm:inline">
-                Donde el humano se rinde, <br />
+                Donde el humano se desconecta, <br />
                 <span className="font-accent italic text-brand-terracotta">
-                  rulo recién empieza.
+                  rulo entra en acción.
                 </span>
               </span>
             </motion.h2>
@@ -89,7 +89,7 @@ export const InterventionSection = () => {
               className="space-y-6 flex flex-col items-start"
             >
               <p className="font-sans text-lg text-brand-bone/70 leading-relaxed max-w-xl mx-0">
-                Nuestra IA no es un chatbot de respuestas vacías. Es un sistema táctico que detecta el silencio del lead y activa protocolos de escasez validados.
+                No es un chatbot con respuestas enlatadas. Es un agente que lee el momento, detecta la objeción y activa el protocolo correcto para que el cliente tome la decisión ahora.
               </p>
 
               {/* ── Feature Items: Clean Horizontal List ── */}
@@ -102,9 +102,9 @@ export const InterventionSection = () => {
                     <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-brand-terracotta transition-transform duration-300 group-hover:scale-110" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-white font-bold text-base leading-tight">Detección de Abandono</h4>
+                    <h4 className="text-white font-bold text-base leading-tight">Detección de intención</h4>
                     <p className="text-sm text-brand-bone/50 leading-relaxed">
-                      Identificamos el momento exacto donde el interés se enfría y activamos la respuesta antes de que sea tarde.
+                      rulo entiende qué quiere el cliente desde el primer mensaje y adapta la conversación para llevarlo al cierre, no al abandono.
                     </p>
                   </div>
                 </div>
@@ -115,9 +115,9 @@ export const InterventionSection = () => {
                     <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-brand-terracotta transition-transform duration-300 group-hover:scale-110" />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-white font-bold text-base leading-tight">Escasez Calibrada</h4>
+                    <h4 className="text-white font-bold text-base leading-tight">Urgencia real, no fabricada</h4>
                     <p className="text-sm text-brand-bone/50 leading-relaxed">
-                      Protocolos de cierre que obligan al lead a tomar una decisión antes de que la oportunidad expire.
+                      Los protocolos de cierre están calibrados para el contexto de tu negocio. Sin presión artificial. Con resultados medibles.
                     </p>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export const InterventionSection = () => {
                 <span className="absolute inset-0 bg-brand-terracotta translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-300 ease-in-out" />
                 <span className="relative z-10 uppercase tracking-wider">
                   <span className="sm:hidden">Reservar Auditoría</span>
-                  <span className="hidden sm:inline">Reservar Auditoría de Facturación</span>
+                  <span className="hidden sm:inline">Reservar Auditoría de Ventas</span>
                 </span>
                 <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
               </button>
