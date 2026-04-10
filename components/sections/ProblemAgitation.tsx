@@ -142,7 +142,7 @@ export const ProblemAgitation = () => {
             */}
             <span className="block lg:whitespace-nowrap">Tu mejor vendedor</span>
             <span className="block font-accent italic tracking-normal text-brand-terracotta lg:whitespace-nowrap">
-              desconecta a las 18hs.
+              cierra a las 18hs.
             </span>
           </motion.h2>
 
@@ -197,7 +197,7 @@ export const ProblemAgitation = () => {
 
               {/* Texto */}
               <div className="flex flex-col pt-0.5 sm:pt-1 min-w-0">
-                <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2 tracking-wide">
+                <h3 className="font-sans text-white font-bold text-xl sm:text-2xl md:text-3xl mb-1 sm:mb-2 tracking-tight">
                   {dolor.title}
                 </h3>
                 {/* /60 → cumple contraste WCAG AA sobre fondos oscuros (era /60 en doc, ok) */}

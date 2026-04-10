@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Poppins, Playfair_Display, Lexend } from "next/font/google";
+import { Geist_Mono, Google_Sans, Fraunces, Lexend } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SmoothScrolling } from "@/components/SmoothScrolling";
@@ -7,13 +7,13 @@ import { FloatingNav } from "@/components/FloatingNav";
 import { FloatingContact } from "@/components/FloatingContact";
 import { SplashScreen } from "@/components/SplashScreen";
 
-const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+const googleSans = Google_Sans({
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-accent",
   style: ["normal", "italic"],
@@ -98,7 +98,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={cn("h-full", "antialiased", poppins.variable, playfair.variable, lexend.variable, geistMono.variable)}
+      className={cn("h-full", "antialiased", googleSans.variable, fraunces.variable, lexend.variable, geistMono.variable)}
     >
       <body className="min-h-full flex flex-col font-sans">
         <SplashScreen>

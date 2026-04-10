@@ -177,7 +177,7 @@ function FeatureCard({
 
       {/* Texto */}
       <div className="relative z-10">
-        <h3 className="font-accent italic text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-wide">
+        <h3 className="font-sans text-white font-bold text-xl sm:text-2xl md:text-3xl mb-2 sm:mb-3 tracking-tight">
           {feature.title}
         </h3>
         {feature.body}
@@ -245,8 +245,6 @@ export const Features = () => {
             className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-4 sm:mb-6"
           >
             Un vendedor que nunca se cansa.{" "}
-            {/* <br> solo en sm+ para no partir raro en mobile muy angosto */}
-            <span className="hidden sm:inline"><br /></span>
             <span className="font-accent italic text-brand-terracotta tracking-normal">
               Nunca se distrae. Nunca cierra.
             </span>

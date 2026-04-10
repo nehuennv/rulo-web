@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { CheckCheck, Phone, Video, ChevronLeft, RefreshCw } from "lucide-react";
 
-// ── Tipografía Poppins ──────────────────────────────────────────────────
+// ── Tipografía Google Sans ──────────────────────────────────────────────────
 const CHAT_FONT = `var(--font-sans), sans-serif`;
 
 // ── CSS Scoped para ocultar scrollbars (UX Mobile) ──────────────────────────

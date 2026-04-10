@@ -8,10 +8,10 @@ Este documento es el **Single Source of Truth** para la dirección de arte, sist
 El diseño utiliza una dualidad tipográfica agresiva para crear jerarquía y carácter.
 
 ### Fuentes Principales
-*   **Sans (`--font-sans`): Poppins**
+*   **Sans (`--font-sans`): Google Sans**
     *   **Uso:** Cuerpo de texto, micro-features, botones, estructuras regulares y explicaciones.
     *   **Estilo:** Limpio, tecnológico, altamente legible en bloques densos.
-*   **Accent (`--font-accent`): Playfair Display**
+*   **Accent (`--font-accent`): Fraunces**
     *   **Uso:** Títulos (H1, H2), encabezados de tarjetas conceptuales y palabras clave críticas.
     *   **Regla de Oro:** Se usa predominantemente en su versión **Itálica (`italic`)** combinada con pesos gruesos (`font-bold`, `font-black`) para dar un toque editorial, prestigioso y contrastar con la modernidad de la UI.
 *   **Brand (`--font-brand`): Lexend**

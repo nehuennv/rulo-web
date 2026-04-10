@@ -27,25 +27,25 @@ const motionVariants = {
 };
 
 const floatLeftVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     y: [0, -10, 0],
     transition: {
       opacity: { delay: 0.6, duration: 1 },
-      y: { repeat: Infinity, duration: 6, ease: "easeInOut" as const },
+      y: { delay: 0.6, repeat: Infinity, duration: 6, ease: "easeInOut" as const },
     },
   },
 };
 
 const floatRightVariants = {
-  hidden: { opacity: 0, y: -20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     y: [0, 10, 0],
     transition: {
       opacity: { delay: 0.8, duration: 1 },
-      y: { repeat: Infinity, duration: 5, ease: "easeInOut" as const, delay: 1 },
+      y: { delay: 1.4, repeat: Infinity, duration: 5, ease: "easeInOut" as const },
     },
   },
 };
@@ -131,8 +131,7 @@ export function HeroBlock() {
             initial="hidden"
             animate={animState}
             variants={floatLeftVariants}
-            whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.3 } }}
-            className="absolute top-[28%] left-[4%] max-w-[260px] z-20 flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[-3deg] shadow-2xl pointer-events-auto cursor-default hidden 2xl:flex"
+            className="absolute top-[28%] left-[4%] max-w-[260px] z-20 flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[-3deg] shadow-2xl pointer-events-none cursor-default hidden 2xl:flex"
           >
             <div className="flex items-center gap-2 mb-1">
               <Bot className="w-4 h-4 text-brand-terracotta" aria-hidden="true" />
@@ -143,7 +142,7 @@ export function HeroBlock() {
             <div className="flex flex-col gap-1">
               <span className="font-sans text-xs text-brand-bone/50">Lead:</span>
               <p className="font-sans text-sm text-brand-bone/90 font-medium">
-                &quot;Hola, ¿tienen stock del modelo negro?&quot;
+                &quot;Hola, ¿tienen stock en negro?&quot;
               </p>
             </div>
             <div className="w-full h-[1px] bg-brand-bone/10 my-1" />
@@ -157,8 +156,7 @@ export function HeroBlock() {
             initial="hidden"
             animate={animState}
             variants={floatRightVariants}
-            whileHover={{ scale: 1.02, y: -5, transition: { duration: 0.3 } }}
-            className="absolute bottom-[28%] right-[4%] max-w-[240px] z-20 flex-col gap-3 p-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[2deg] shadow-2xl pointer-events-auto cursor-default hidden 2xl:flex"
+            className="absolute bottom-[28%] right-[4%] max-w-[240px] z-20 flex-col gap-3 p-4 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl rotate-[2deg] shadow-2xl pointer-events-none cursor-default hidden 2xl:flex"
           >
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="w-4 h-4 text-brand-success" aria-hidden="true" />

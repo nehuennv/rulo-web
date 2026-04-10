@@ -66,13 +66,13 @@ export const InterventionSection = () => {
               className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight"
             >
               <span className="sm:hidden">
-                Tu equipo se rinde. <br />
+                Tu equipo se rinde.{" "}
                 <span className="font-accent italic text-brand-terracotta">
                   rulo recién empieza.
                 </span>
               </span>
               <span className="hidden sm:inline">
-                Donde el humano se desconecta, <br />
+                Donde el humano se desconecta,{" "}
                 <span className="font-accent italic text-brand-terracotta">
                   rulo entra en acción.
                 </span>
