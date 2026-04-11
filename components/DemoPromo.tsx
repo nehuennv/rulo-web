@@ -7,7 +7,7 @@ import { useSplashDone } from "@/components/SplashScreen";
 
 const STORAGE_KEY = "rulo-demo-promo-seen";
 const WHATSAPP_DEMO_URL =
-  "https://wa.me/5492644881787?text=Hola";
+  "https://wa.me/5492645295724?text=Hola,%20vengo%20a%20probar%20la%20demo%20de%20Rulo!";
 
 export function DemoPromo() {
   const [show, setShow] = useState(false);
@@ -15,14 +15,6 @@ export function DemoPromo() {
 
   useEffect(() => {
     if (!splashDone) return;
-
-    // Don't show if already seen this session
-    try {
-      if (sessionStorage.getItem(STORAGE_KEY)) return;
-    } catch {
-      // sessionStorage not available (SSR / privacy mode), skip
-      return;
-    }
 
     const timer = setTimeout(() => {
       setShow(true);
@@ -33,19 +25,9 @@ export function DemoPromo() {
 
   const handleDismiss = useCallback(() => {
     setShow(false);
-    try {
-      sessionStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      // ignore
-    }
   }, []);
 
   const handleCta = useCallback(() => {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      // ignore
-    }
     window.open(WHATSAPP_DEMO_URL, "_blank", "noopener");
   }, []);
 
