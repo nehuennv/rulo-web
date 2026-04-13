@@ -55,7 +55,7 @@ const floatLoopRight = {
 // ─── Trust indicators data ────────────────────────────────────────────────────
 const TRUST_ITEMS = [
   { icon: <Bot className="w-5 h-5 shrink-0" aria-hidden="true" />, title: "Agente Autónomo", desc: "Opera 100% en solitario" },
-  { icon: <TrendingUp className="w-5 h-5 shrink-0" aria-hidden="true" />, title: "ROI Garantizado", desc: "O te devolvemos el setup" },
+  { icon: <TrendingUp className="w-5 h-5 shrink-0" aria-hidden="true" />, title: "Cero Riesgo", desc: "Setup bonificado, sin permanencia" },
   { icon: <ShieldCheck className="w-5 h-5 shrink-0" aria-hidden="true" />, title: "API Oficial Meta", desc: "Integración de grado empresarial" },
 ];
 
