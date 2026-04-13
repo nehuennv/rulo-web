@@ -213,7 +213,7 @@ export function HeroBlock() {
           </div>
           <span className="hidden sm:block w-8 h-[1px] bg-brand-bone/20" aria-hidden="true" />
           <span className="hidden sm:block font-sans text-[10px] sm:text-xs font-medium tracking-widest text-brand-bone/60 uppercase text-center text-balance">
-            Cerrando ventas mientras dormís
+            Auditoría de Ventas incluída
           </span>
         </motion.div>
 

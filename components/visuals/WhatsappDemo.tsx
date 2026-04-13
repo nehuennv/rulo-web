@@ -4,59 +4,111 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { CheckCheck, Phone, Video, ChevronLeft, RefreshCw } from "lucide-react";
 
-// ── Tipografía Google Sans ──────────────────────────────────────────────────
 const CHAT_FONT = `var(--font-sans), sans-serif`;
 
-// ── CSS Scoped para ocultar scrollbars (UX Mobile) ──────────────────────────
 const NO_SCROLLBAR_CSS = `
-  .no-scrollbar::-webkit-scrollbar {
-    display: none !important;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none !important;
-    scrollbar-width: none !important;
-  }
+  .no-scrollbar::-webkit-scrollbar { display: none !important; }
+  .no-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
 `;
 
-// ── Nombres y Apellidos Aleatorios ─────────────────────────────────────────
 const NOMBRES = ["Lucía", "Martín", "Valentina", "Facundo", "Camila", "Rodrigo", "Sofía", "Matías", "Agustina", "Nicolás", "Florencia", "Tomás", "Julieta", "Ignacio", "Micaela"];
 const APELLIDOS = ["González", "Fernández", "López", "Martínez", "Rodríguez", "García", "Pérez", "Sánchez", "Romero", "Torres", "Flores", "Díaz", "Morales", "Jiménez", "Ruiz"];
 
 const getRandom = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+const getRandomExcept = <T,>(arr: T[], excludeIdx: number): { item: T; idx: number } => {
+  let idx = excludeIdx;
+  while (idx === excludeIdx) idx = Math.floor(Math.random() * arr.length);
+  return { item: arr[idx], idx };
+};
 const getInitials = (n: string, a: string) => `${n[0]}${a[0]}`;
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-const CONVERSACIONES = [
+// Render text with *bold* and \n support
+const renderText = (text: string) => {
+  const parts = text.split(/(\*[^*]+\*|\n)/g);
+  return parts.map((part, i) => {
+    if (part === "\n") return <br key={i} />;
+    if (part.startsWith("*") && part.endsWith("*") && part.length > 2)
+      return <strong key={i} style={{ fontWeight: 700 }}>{part.slice(1, -1)}</strong>;
+    return part;
+  });
+};
+
+interface Msg {
+  text: string;
+  isAgent: boolean;
+  time: string;
+}
+
+const CONVERSACIONES: { msgs: Msg[] }[] = [
   {
     msgs: [
-      "Hola! Tienen el Samsung A55 disponible?",
-      "Sí! Lo tenemos en negro y azul noche. ¿Querés que te mande las fotos?",
-      "Mirá, hoy vino más gente a preguntar por ese modelo que por cualquier otro. Si querés te anoto el nombre y cuando quede uno reservado sos la primera en saberlo.",
-      "Sí, anotame! Me interesa el azul. ¿Cuándo estaría?",
+      { text: "hola! cuanto sale el combo clasica con papas y una gaseosa?", isAgent: false, time: "13:04" },
+      { text: "Hola! la clásica $4500, papas $1800 y gaseosa $1200. Todo junto $7500 pero hoy hay 10% off, te quedaría en *$6.750* 🔥", isAgent: true, time: "13:04" },
+      { text: "re bien! puedo pagar con mp?", isAgent: false, time: "13:06" },
+      { text: "Dale, alias *rulo.burger*. Cuando transferís me avisás y en 30 min está listo 🙌", isAgent: true, time: "13:06" },
+      { text: "si va, ya te mando la plata", isAgent: false, time: "13:08" },
+      { text: "Buenísimo! Mandame el comprobante y te confirmo el pedido 🎉 Buen provecho!", isAgent: true, time: "13:08" },
     ],
   },
   {
     msgs: [
-      "Buenas, busco un Cronos 0km. Qué opciones manejan?",
-      "Buenas! Tenemos el GNC y el nafta en azul, blanco y gris. ¿Querés que te arme una cotización?",
-      "Por lo que me contás calificás para la tasa diferencial que tenemos este mes, no todos acceden. Te paso los números así lo analizás tranquilo.",
-      "Dale, mandame todo. Me interesa la tasa especial.",
+      { text: "hola tienen el iphone 15 pro 256gb en titanio natural?", isAgent: false, time: "11:21" },
+      { text: "Hola! sí, lo tenemos. En efectivo o transfe sale *$1.334.000* (8% de descuento). Con tarjeta lo podés hacer en 12 cuotas sin interés 📦", isAgent: true, time: "11:21" },
+      { text: "con transferencia me quedo. puedo pasarlo a buscar hoy?", isAgent: false, time: "11:23" },
+      { text: "Sí, hoy lo tenés. Lo anoto a tu nombre para que nadie más lo lleve, ¿cómo te llamas?", isAgent: true, time: "11:24" },
+      { text: "González, gracias!", isAgent: false, time: "11:25" },
+      { text: "¡Listo González! Ya está apartado, estamos hasta las 20hs. Te esperamos 🤙", isAgent: true, time: "11:25" },
     ],
   },
   {
     msgs: [
-      "Hola! Vi la campera del reel, la tienen en talle M?",
-      "Hola! Sí, está disponible en M. Es una de las más pedidas de esta temporada.",
-      "La M la reservaron un par de veces esta semana. Todavía hay una, si querés la aparto hasta mañana sin necesidad de pagar nada ahora.",
-      "Sí, me la apartás? No la quiero perder. Cómo pago?",
+      { text: "hola vi la campera de cuero en el reel, la tienen en M?", isAgent: false, time: "16:42" },
+      { text: "Hola! sí, la tenemos en M en negro y marrón, $95.000. El negro M está quedando poco, fue muy pedida esta semana 🖤", isAgent: true, time: "16:42" },
+      { text: "normalmente uso entre S y M, cuál me recomendás?", isAgent: false, time: "16:44" },
+      { text: "La M, tiene corte entallado y para ese rango queda perfecto. En negro queda espectacular.", isAgent: true, time: "16:44" },
+      { text: "el negro! podés apartármela hasta mañana?", isAgent: false, time: "16:46" },
+      { text: "¡Ya está! La M negra apartada a tu nombre hasta mañana a las 18hs, sin seña. Avisame cuando venís 🙌", isAgent: true, time: "16:47" },
     ],
   },
   {
     msgs: [
-      "Hola, vi el depto en Belgrano. Me pueden dar info?",
-      "Hola! Es un 3 ambientes en piso 8 con muy buena vista. ¿Cuándo podrías visitarlo?",
-      "Justo hoy hubo otra consulta por esa unidad. Si querés coordinamos la visita primero para vos, así la conocés con calma antes que otros avancen.",
-      "Me interesa! Podría ser el jueves a la tarde?",
+      { text: "buenas! hacen precio por cantidad? necesito 50 remeras básicas", isAgent: false, time: "10:15" },
+      { text: "Buenas! sí. Para 50 piezas te sale *$8.500 c/u* (precio lista $12.000), $425.000 el lote. Envío a CABA y GBA incluido.", isAgent: true, time: "10:15" },
+      { text: "puedo mezclar colores o es todo del mismo?", isAgent: false, time: "10:17" },
+      { text: "Mezclás como quieras entre blanco, negro, gris, verde y arena, sin cambio de precio 💪 ¿Para cuándo las necesitás?", isAgent: true, time: "10:17" },
+      { text: "viernes de la semana que viene estaría bien", isAgent: false, time: "10:19" },
+      { text: "El viernes lo tenemos 🟢 Con una seña del 30% al alias *rulo.ropa* arranco la producción hoy. ¿Cerramos?", isAgent: true, time: "10:20" },
+    ],
+  },
+  {
+    msgs: [
+      { text: "hola! a que hora cierran hoy? quería ir a cenar con mi familia, somos 5", isAgent: false, time: "18:03" },
+      { text: "Hola! cerramos a las 23:30. Para 5 personas te conviene reservar porque los viernes se llena bastante. ¿A qué hora pensaban venir?", isAgent: true, time: "18:03" },
+      { text: "tipo 21hs estaría bien", isAgent: false, time: "18:05" },
+      { text: "21hs perfecto, mesa para 5 disponible 👌 ¿A nombre de quién la anoto?", isAgent: true, time: "18:05" },
+      { text: "a nombre de Pereyra, gracias!", isAgent: false, time: "18:06" },
+      { text: "¡Listo Pereyra! Mesa confirmada a las 21hs 🎉 Si tienen algún festejo o preferencia de lugar avisame. ¡Los esperamos!", isAgent: true, time: "18:06" },
+    ],
+  },
+  {
+    msgs: [
+      { text: "buenas! tienen el sillón de 3 cuerpos que pusieron en stories?", isAgent: false, time: "15:30" },
+      { text: "Buenas! sí, el *Oslo* en 3 cuerpos, $380.000. Lo tenés en arena, gris y verde oliva. Esta semana ya van 2 reservadas de las 4 que entraron 🛋️", isAgent: true, time: "15:31" },
+      { text: "tienen financiación?", isAgent: false, time: "15:33" },
+      { text: "Sí! hasta 12 cuotas sin interés con tarjeta, $31.667 por mes. O en efectivo/transfe tiene 15% off, quedaría en *$323.000*.", isAgent: true, time: "15:33" },
+      { text: "me quedo con tarjeta en 12. lo entregan a domicilio?", isAgent: false, time: "15:35" },
+      { text: "¡Dale! Envío a domicilio incluido, coordinamos la fecha que mejor te quede. Lo separo a tu nombre ahora 🚚", isAgent: true, time: "15:35" },
+    ],
+  },
+  {
+    msgs: [
+      { text: "hola! me pueden dar info del depto en belgrano que publicaron?", isAgent: false, time: "11:10" },
+      { text: "Hola! claro, es un 3 ambientes en piso 8, vista despejada, cocina integrada y balcón. Alquiler $320.000 más $45.000 de expensas 🏠", isAgent: true, time: "11:10" },
+      { text: "podría visitar el jueves a la tarde?", isAgent: false, time: "11:12" },
+      { text: "Jueves a la tarde perfecto. Hoy ya hubo otra consulta por esa unidad, te conviene confirmar. ¿A las 16 o 18hs te queda mejor?", isAgent: true, time: "11:12" },
+      { text: "a las 16hs me viene bien", isAgent: false, time: "11:14" },
+      { text: "¡Confirmado! Jueves 16hs en Belgrano. Te mando la dirección exacta antes del jueves 📍 ¡Hasta el jueves!", isAgent: true, time: "11:14" },
     ],
   },
 ];
@@ -65,8 +117,19 @@ interface Activa {
   nombre: string;
   apellido: string;
   initials: string;
-  msgs: string[];
+  msgs: Msg[];
 }
+
+// Sequence timings: [show_delay_after_prev, typing_duration]
+// For 6 messages alternating customer/agent
+const SEQUENCE: Array<{ showDelay: number; typingDuration: number; dir: "left" | "right" }> = [
+  { showDelay: 900,  typingDuration: 0,    dir: "left"  }, // msg[0] customer - no typing, just appears
+  { showDelay: 1000, typingDuration: 1800, dir: "right" }, // msg[1] agent typing
+  { showDelay: 2200, typingDuration: 1100, dir: "left"  }, // msg[2] customer typing (reading pause + typing)
+  { showDelay: 800,  typingDuration: 2000, dir: "right" }, // msg[3] agent typing
+  { showDelay: 2800, typingDuration: 1000, dir: "left"  }, // msg[4] customer typing
+  { showDelay: 700,  typingDuration: 1600, dir: "right" }, // msg[5] agent typing
+];
 
 export const WhatsappDemo = () => {
   const [activa, setActiva] = useState<Activa | null>(null);
@@ -78,6 +141,7 @@ export const WhatsappDemo = () => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const sequenceRef = useRef<boolean>(true);
+  const lastConvIdx = useRef<number>(-1);
   const isDragging = useRef(false);
   const startY = useRef(0);
   const startScrollTop = useRef(0);
@@ -87,25 +151,17 @@ export const WhatsappDemo = () => {
     startY.current = e.pageY - (scrollRef.current?.offsetTop || 0);
     startScrollTop.current = scrollRef.current?.scrollTop || 0;
   };
-
   const onMouseMove = (e: React.MouseEvent) => {
     if (!isDragging.current || !scrollRef.current) return;
     e.preventDefault();
     const y = e.pageY - (scrollRef.current.offsetTop || 0);
-    const walk = (y - startY.current) * 1.5;
-    scrollRef.current.scrollTop = startScrollTop.current - walk;
+    scrollRef.current.scrollTop = startScrollTop.current - (y - startY.current) * 1.5;
   };
-
-  const onStopDragging = () => {
-    isDragging.current = false;
-  };
+  const onStopDragging = () => { isDragging.current = false; };
 
   useEffect(() => {
     if (scrollRef.current && !isDragging.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
     }
   }, [visible, typing]);
 
@@ -113,58 +169,39 @@ export const WhatsappDemo = () => {
     sequenceRef.current = true;
     setIsWaitingForReset(false);
     setInputText("");
-
-    const nombre = getRandom(NOMBRES);
-    const apellido = getRandom(APELLIDOS);
-    const conv = getRandom(CONVERSACIONES);
-
-    setActiva({
-      nombre,
-      apellido,
-      initials: getInitials(nombre, apellido),
-      msgs: conv.msgs
-    });
-
     setVisible(0);
     setTyping(false);
 
-    await delay(1000);
-    if (!sequenceRef.current) return;
-    setVisible(1);
+    const nombre = getRandom(NOMBRES);
+    const apellido = getRandom(APELLIDOS);
+    const { item: conv, idx } = getRandomExcept(CONVERSACIONES, lastConvIdx.current);
+    lastConvIdx.current = idx;
 
-    await delay(1600);
-    if (!sequenceRef.current) return;
-    setTypingDir("right");
-    setTyping(true);
-    await delay(2000);
-    if (!sequenceRef.current) return;
-    setTyping(false);
-    setVisible(2);
+    setActiva({ nombre, apellido, initials: getInitials(nombre, apellido), msgs: conv.msgs });
 
-    await delay(3500);
-    if (!sequenceRef.current) return;
-    setTypingDir("right");
-    setTyping(true);
-    await delay(2200);
-    if (!sequenceRef.current) return;
-    setTyping(false);
-    setVisible(3);
+    for (let i = 0; i < SEQUENCE.length; i++) {
+      const step = SEQUENCE[i];
 
-    await delay(1400);
-    if (!sequenceRef.current) return;
-    setTypingDir("left");
-    setTyping(true);
+      await delay(step.showDelay);
+      if (!sequenceRef.current) return;
+
+      if (step.typingDuration > 0) {
+        setTypingDir(step.dir);
+        setTyping(true);
+        await delay(step.typingDuration);
+        if (!sequenceRef.current) return;
+        setTyping(false);
+      }
+
+      setVisible(i + 1);
+    }
+
     await delay(1800);
     if (!sequenceRef.current) return;
-    setTyping(false);
-    setVisible(4);
 
-    await delay(1200);
-    if (!sequenceRef.current) return;
-    
     const textToType = "Probar de nuevo";
     for (let i = 0; i < textToType.length; i++) {
-      await delay(80);
+      await delay(75);
       if (!sequenceRef.current) return;
       setInputText(textToType.substring(0, i + 1));
     }
@@ -206,11 +243,7 @@ export const WhatsappDemo = () => {
 
         <div
           className="relative overflow-hidden flex flex-col"
-          style={{
-            borderRadius: "30px",
-            background: "#231F1E",
-            height: "680px",
-          }}
+          style={{ borderRadius: "30px", background: "#231F1E", height: "680px" }}
         >
           {/* Status Bar */}
           <div className="relative flex items-center justify-between px-7" style={{ height: "34px" }}>
@@ -221,11 +254,9 @@ export const WhatsappDemo = () => {
                   <div key={i} style={{ width: "2px", height: `${h}px`, background: "#E8E3D9", borderRadius: "0.5px" }} />
                 ))}
               </div>
-              <div style={{ width: "14px", height: "14px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8E3D9" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" />
-                </svg>
-              </div>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8E3D9" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" />
+              </svg>
               <div style={{ width: "18px", height: "9px", border: "1px solid #E8E3D9", borderRadius: "2px", padding: "1px" }}>
                 <div style={{ width: "70%", height: "100%", background: "#E8E3D9", borderRadius: "0.5px" }} />
               </div>
@@ -251,7 +282,8 @@ export const WhatsappDemo = () => {
               <span className="text-[#E8E3D9]/30 text-[10px] uppercase tracking-widest font-bold">En línea</span>
             </div>
             <div className="flex items-center gap-2 opacity-30">
-              <Video className="w-4 h-4 text-[#E8E3D9]" /> <Phone className="w-3.5 h-3.5 text-[#E8E3D9]" />
+              <Video className="w-4 h-4 text-[#E8E3D9]" />
+              <Phone className="w-3.5 h-3.5 text-[#E8E3D9]" />
             </div>
           </div>
 
@@ -262,45 +294,45 @@ export const WhatsappDemo = () => {
             onMouseMove={onMouseMove}
             onMouseUp={onStopDragging}
             onMouseLeave={onStopDragging}
-            className="flex-1 overflow-y-auto no-scrollbar relative flex flex-col gap-3 px-4 py-4"
+            className="flex-1 overflow-y-auto no-scrollbar px-4 py-4"
             style={{ cursor: isDragging.current ? "grabbing" : "grab" }}
           >
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               <AnimatePresence>
-                {([0, 1, 2, 3] as const).map((i) => {
+                {([0, 1, 2, 3, 4, 5] as const).map((i) => {
                   if (i >= visible) return null;
-                  const isMe = i === 1 || i === 2;
-                  const timestamps = ["14:02", "14:05", "18:45", "18:46"];
+                  const msg = msgs[i];
+                  if (!msg) return null;
 
                   return (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                      style={{ alignSelf: isMe ? "flex-end" : "flex-start", maxWidth: "85%" }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      style={{ alignSelf: msg.isAgent ? "flex-end" : "flex-start", maxWidth: "86%" }}
                     >
-                      {i === 2 && (
-                        <div className="text-[10px] font-mono text-[#C9523B] uppercase tracking-[0.25em] mb-1 font-black">
+                      {msg.isAgent && (
+                        <div className="text-[9px] font-mono text-[#C9523B] uppercase tracking-[0.25em] mb-1 font-black text-right pr-1">
                           rulo
                         </div>
                       )}
                       <div
                         style={{
-                          padding: "10px 14px",
+                          padding: "9px 13px 8px",
                           fontSize: "13px",
-                          lineHeight: "1.5",
+                          lineHeight: "1.55",
                           color: "#E8E3D9",
-                          background: isMe ? "#C9523B" : "#3A3331",
-                          borderRadius: isMe ? "18px 4px 18px 18px" : "4px 18px 18px 18px",
-                          border: "1px solid rgba(232,227,217,0.05)",
-                          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                          background: msg.isAgent ? "#C9523B" : "#3A3331",
+                          borderRadius: msg.isAgent ? "18px 4px 18px 18px" : "4px 18px 18px 18px",
+                          border: "1px solid rgba(232,227,217,0.04)",
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
                         }}
                       >
-                        <p className="opacity-90">{msgs[i]}</p>
-                        <div className="flex items-center justify-end gap-1.5 mt-1.5 opacity-30">
-                          <span className="text-[9px]">{timestamps[i]}</span>
-                          {isMe && <CheckCheck className="w-3 h-3" />}
+                        <p className="opacity-90">{renderText(msg.text)}</p>
+                        <div className="flex items-center justify-end gap-1 mt-1.5" style={{ opacity: 0.45 }}>
+                          <span style={{ fontSize: "10px" }}>{msg.time}</span>
+                          {msg.isAgent && <CheckCheck style={{ width: "12px", height: "12px" }} />}
                         </div>
                       </div>
                     </motion.div>
@@ -310,17 +342,21 @@ export const WhatsappDemo = () => {
 
               {typing && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  key="typing"
+                  initial={{ opacity: 0, scale: 0.85 }}
                   animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.2 }}
                   style={{ alignSelf: typingDir === "right" ? "flex-end" : "flex-start" }}
                 >
-                  <div className="flex gap-1 px-3 py-3 bg-[#3A3331] rounded-2xl border border-white/5">
-                    {[0, 0.15, 0.3].map((d, idx) => (
+                  <div className="flex gap-1 px-3.5 py-3 bg-[#3A3331] rounded-2xl border border-white/5">
+                    {[0, 0.16, 0.32].map((d, idx) => (
                       <motion.div
                         key={idx}
-                        className="w-1.5 h-1.5 rounded-full bg-[#E8E3D9]/40"
-                        animate={{ opacity: [0.3, 1, 0.3] }}
-                        transition={{ duration: 1, repeat: Infinity, delay: d }}
+                        className="rounded-full bg-[#E8E3D9]/50"
+                        style={{ width: "6px", height: "6px" }}
+                        animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                        transition={{ duration: 0.9, repeat: Infinity, delay: d }}
                       />
                     ))}
                   </div>
@@ -332,33 +368,43 @@ export const WhatsappDemo = () => {
           {/* Footer Input */}
           <div className="p-4" style={{ borderTop: "1px solid rgba(232,227,217,0.05)" }}>
             <div className="flex items-center gap-2">
-              <div className="flex-1 flex items-center px-4 h-10 rounded-full border border-white/5" style={{ background: "#3A3331" }}>
-                <div className="flex-1 text-[#E8E3D9]/30 text-xs truncate">
-                  {inputText || (isWaitingForReset ? "" : "Escribir mensaje...")}
+              <div
+                className="flex-1 flex items-center px-4 h-10 rounded-full border border-white/5"
+                style={{ background: "#3A3331" }}
+              >
+                <div className="flex-1 text-[#E8E3D9]/35 text-[12.5px] truncate">
+                  {inputText || (!isWaitingForReset && "Escribir mensaje...")}
                   {inputText && !isWaitingForReset && (
-                    <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} className="inline-block w-0.5 h-3.5 bg-[#C9523B] ml-1 align-middle" />
+                    <motion.span
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 0.7, repeat: Infinity }}
+                      className="inline-block bg-[#C9523B] ml-0.5 align-middle"
+                      style={{ width: "1.5px", height: "13px" }}
+                    />
                   )}
                 </div>
               </div>
               <motion.button
                 onClick={() => isWaitingForReset && playSequence()}
-                whileHover={isWaitingForReset ? { scale: 1.05, backgroundColor: "#D9664F" } : {}}
-                whileTap={isWaitingForReset ? { scale: 0.95 } : {}}
-                className="relative w-10 h-10 flex items-center justify-center rounded-full transition-shadow duration-300"
-                style={{ 
+                whileHover={isWaitingForReset ? { scale: 1.06 } : {}}
+                whileTap={isWaitingForReset ? { scale: 0.94 } : {}}
+                className="relative w-10 h-10 flex items-center justify-center rounded-full"
+                style={{
                   background: "#C9523B",
-                  boxShadow: isWaitingForReset ? "0 0 20px rgba(201,82,59,0.4)" : "none",
-                  cursor: isWaitingForReset ? "pointer" : "default"
+                  boxShadow: isWaitingForReset ? "0 0 20px rgba(201,82,59,0.45)" : "none",
+                  cursor: isWaitingForReset ? "pointer" : "default",
+                  transition: "box-shadow 0.3s",
                 }}
               >
                 <AnimatePresence mode="wait">
                   {isWaitingForReset ? (
-                    <motion.div 
-                      key="r" 
+                    <motion.div
+                      key="r"
                       initial={{ rotate: -90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       whileHover={{ rotate: 180 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 12 }}
                     >
                       <RefreshCw className="w-4 h-4 text-white" />
                     </motion.div>

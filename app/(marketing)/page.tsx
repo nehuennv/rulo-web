@@ -6,6 +6,7 @@ import { InterventionSection } from "@/components/sections/InterventionSection";
 import { Features } from "@/components/sections/Features";
 import { Integrations } from "@/components/sections/Integrations";
 import { RoiCalculator } from "@/components/sections/RoiCalculator";
+import { IntelligenceSection } from "@/components/sections/IntelligenceSection";
 import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
@@ -25,7 +26,7 @@ export default function LandingPage() {
         <Features />
         {/* <Integrations /> */}
         <RoiCalculator />
-
+        <IntelligenceSection />
         <FinalCta />
         <Faq />
         <Footer />

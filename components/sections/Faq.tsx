@@ -10,20 +10,24 @@ import { Plus, Minus, MessageCircleQuestion } from "lucide-react";
 */
 const faqsData = [
   {
-    question: "¿Qué riesgo hay de que me baneen el número de WhatsApp?",
-    answer: "Cero riesgo operando con nosotros. rulo usa exclusivamente la Meta API Oficial, la misma infraestructura que usan las empresas Fortune 500. A diferencia de apps de terceros o extensiones de Chrome, tu número opera bajo el ecosistema de Meta directamente. El proceso incluye validación de identidad (CUIT y documentación legal), lo que convierte tu operación en un canal empresarial certificado."
+    question: "¿Cuánto tiempo lleva realmente la puesta en marcha?",
+    answer: "No es de un día para el otro. Lleva entre 5 y 10 días hábiles porque entrenamos a la IA con tu catálogo real, tus precios y tu forma de vender. Prefiero tardar una semana y que el Agente responda perfecto, a instalarlo rápido y que le pase info incorrecta a un cliente."
   },
   {
-    question: "¿Cómo garantizan que la IA no dice cosas incorrectas?",
-    answer: "rulo no improvisa. Opera dentro de un flujo de ventas definido con reglas rígidas: responde solo lo que sabe, dentro del protocolo de tu negocio. Si el cliente pregunta algo fuera del guión, el sistema transfiere automáticamente: \"Te paso con un asesor del local\". Sin alucinaciones. Sin sorpresas."
+    question: "¿El Agente puede \"inventar\" respuestas o prometer cosas que no son?",
+    answer: "No. rulo opera bajo reglas rígidas que definimos con vos. Solo responde en base a la información oficial de tu negocio (stock, precios, horarios). Si un cliente pregunta algo que no está en su \"cerebro\", el Agente está entrenado para no improvisar y derivar la consulta de forma profesional."
   },
   {
-    question: "¿Esto va a reemplazar a mis vendedores?",
-    answer: "No. rulo hace el trabajo que destruye su productividad: responder a las 11pm, seguir leads fríos, contestar siempre lo mismo. Tu equipo recibe una alerta cuando el cliente ya está listo para pagar. Ellos solo cobran."
+    question: "¿Qué capacidad de respuesta tiene si me entran muchos mensajes juntos?",
+    answer: "Es ilimitada. A diferencia de un vendedor humano, rulo puede mantener 100 conversaciones simultáneas con la misma velocidad y calidad de atención. Tu capacidad de ventas deja de depender de cuántas manos tenés disponibles para escribir."
   },
   {
-    question: "¿Cómo sé si realmente funcionó?",
-    answer: "Cada conversación queda registrada. Sabés exactamente cuántos leads entró rulo, cuántos respondió, cuántos confirmaron visita y cuántos cerraron. No hay caja negra: el tracking es tuyo."
+    question: "¿El objetivo del bot es solo informar o realmente cierra la venta?",
+    answer: "Está diseñado para vender. No es un chatbot que solo da precios; rulo detecta la intención de compra y usa gatillos de cierre (como ofrecer separar el producto o coordinar la visita al local) para que el interés del cliente se transforme en una transacción real."
+  },
+  {
+    question: "¿Para qué me sirve el informe que me mandan a fin de mes?",
+    answer: "Para dejar de adivinar y tomar decisiones con datos. Te decimos exactamente cuántos clientes perdieron el interés porque no tenías stock, cuántos se quejaron del precio y qué producto te están pidiendo que hoy no tenés. Es la información que necesitás para saber qué comprar y cómo invertir mejor en publicidad."
   }
 ];
 

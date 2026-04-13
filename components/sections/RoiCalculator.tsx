@@ -311,12 +311,10 @@ export const RoiCalculator = () => {
           className="mt-8 sm:mt-12 lg:mt-14 flex justify-center"
         >
           <div className="max-w-2xl text-center px-4 sm:px-8 py-5 sm:py-6 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md">
-            <p className="font-sans text-brand-bone text-sm sm:text-base md:text-lg font-medium leading-relaxed">
-              El abono mensual fijo no varía.{" "}
-              <br className="sm:hidden" />
-              <strong className="text-white font-bold underline decoration-brand-success decoration-2 underline-offset-4 inline">
-                Cada venta adicional es margen neto directo.
-              </strong>
+            <p className="font-sans text-sm sm:text-base md:text-lg leading-relaxed">
+              <span className="text-brand-bone/60 font-light">El abono mensual fijo no varía.</span>
+              {" "}
+              <span className="text-white font-semibold">Cada venta adicional es margen neto directo.</span>
             </p>
           </div>
         </motion.div>

@@ -175,6 +175,7 @@ const HamburgerIcon = ({ isOpen }: { isOpen: boolean }) => (
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
+      initial={{ y1: 5, y2: 5, x1: 3, x2: 15, rotate: 0 }}
       animate={isOpen ? { y1: 9, y2: 9, x1: 4.5, x2: 13.5, rotate: 45 } : { y1: 5, y2: 5, x1: 3, x2: 15, rotate: 0 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       style={{ originX: "50%", originY: "50%" }}
@@ -184,6 +185,7 @@ const HamburgerIcon = ({ isOpen }: { isOpen: boolean }) => (
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
+      initial={{ opacity: 1, scaleX: 1 }}
       animate={isOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
       transition={{ duration: 0.15 }}
     />
@@ -192,6 +194,7 @@ const HamburgerIcon = ({ isOpen }: { isOpen: boolean }) => (
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
+      initial={{ y1: 13, y2: 13, x1: 3, x2: 15, rotate: 0 }}
       animate={isOpen ? { y1: 9, y2: 9, x1: 4.5, x2: 13.5, rotate: -45 } : { y1: 13, y2: 13, x1: 3, x2: 15, rotate: 0 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       style={{ originX: "50%", originY: "50%" }}

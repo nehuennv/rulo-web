@@ -143,7 +143,7 @@ export const FinalCta = () => {
               <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-success/60" />
               <span className="font-mono text-[10px] sm:text-xs font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-brand-success uppercase flex items-center gap-1.5 sm:gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-                Garantía de Retorno
+                Garantía de Resultados
               </span>
               <span aria-hidden="true" className="w-6 sm:w-8 h-[1px] bg-brand-success/60" />
             </motion.div>
@@ -158,11 +158,11 @@ export const FinalCta = () => {
               viewport={{ once: true, margin: "-10% 0px" }}
               className="font-sans text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.05] mb-6 sm:mb-8 w-full max-w-4xl mx-auto"
             >
-              Garantía total.{" "}
+              Cero riesgo.{" "}
               {/* Salto solo en sm+ para no romper en 320px */}
               <span className="hidden sm:inline"><br /></span>
               <span className="font-accent italic text-brand-terracotta tracking-normal">
-                O ganás plata o no pagás.
+                Si no te sirve, cancelás.
               </span>
             </motion.h2>
 
@@ -176,13 +176,13 @@ export const FinalCta = () => {
               className="mb-10 sm:mb-14 max-w-3xl px-2"
             >
               <p className="font-sans text-base sm:text-lg md:text-xl lg:text-2xl text-brand-bone/80 leading-relaxed font-light">
-                Asumimos el riesgo de integración con una{" "}
+                Instalación gratis.{" "}
                 <strong className="text-white font-bold underline decoration-brand-terracotta decoration-2 underline-offset-4">
-                  garantía contractual de retorno.
+                  Confiamos tanto que el riesgo es 100% nuestro.
                 </strong>
               </p>
               <p className="mt-4 sm:mt-5 font-sans text-brand-bone/55 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl mx-auto">
-                Pagás el setup para armar la infraestructura. Si en 30 días rulo no genera más de lo que invertiste, te reintegramos el 100%. Un vendedor que no vende no sirve.
+                Bonificamos el setup inicial. Si en 30 días rulo no se paga solo con ventas nuevas o tiempo recuperado, podés darte de baja sin vueltas ni contratos de permanencia.
               </p>
             </motion.div>
 
@@ -246,24 +246,16 @@ export const FinalCta = () => {
               aria-label="Detalles de la reunión"
             >
               {[
-                "Sesión Estratégica",
-                "Respuesta en 24 h",
-                "Sin compromiso",
+                "Setup Bonificado",
+                "Sin permanencia",
+                "Sin vueltas",
               ].map((item, i, arr) => (
-                <span
-                  key={item}
-                  className={`items-center gap-4 sm:gap-5 ${item === "Respuesta en 24 h" ? "hidden sm:flex" : "flex"
-                    }`}
-                >
+                <span key={item} className="flex items-center gap-4 sm:gap-5">
                   <span className="font-mono text-[10px] sm:text-xs tracking-widest uppercase text-brand-bone/35">
                     {item}
                   </span>
                   {i < arr.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className={`w-1 h-1 rounded-full bg-brand-bone/20 ${item === "Respuesta en 24 h" ? "hidden sm:block" : "hidden sm:block"
-                        }`}
-                    />
+                    <span aria-hidden="true" className="w-1 h-1 rounded-full bg-brand-bone/20 hidden sm:block" />
                   )}
                 </span>
               ))}

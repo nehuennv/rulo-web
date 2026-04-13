@@ -31,23 +31,26 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://somosrulo.com"),
-  title: "rulo. | Monetizá la Demanda Oscura y Recuperá tu Capital con IA",
+  title: "rulo. | Agente de IA para WhatsApp — Vendé 24/7 y conocé tu negocio",
   description:
-    "rulo es la IA que ilumina los leads que pagaste y nunca cerraste. Recuperación automática de ventas por WhatsApp con ROI garantizado y auditoría 24/7.",
+    "rulo responde, convierte y aprende de cada conversación de WhatsApp. Vendé las 24hs sin contratar más vendedores, y recibí cada mes un informe con datos reales: qué productos te piden, qué no tenés en stock y qué dice tu cliente de la competencia.",
   keywords: [
-    "Demanda Oscura",
-    "Recuperación de Capital",
-    "IA para ventas",
-    "WhatsApp Marketing",
-    "Meta Ads ROI",
-    "Auditoría de Ventas",
+    "agente de IA WhatsApp",
+    "ventas por WhatsApp 24/7",
+    "inteligencia de negocio WhatsApp",
+    "automatización de ventas IA",
+    "chatbot WhatsApp Argentina",
+    "análisis de conversaciones WhatsApp",
+    "WhatsApp Business API",
     "rulo",
     "somosrulo",
+    "vendedor IA WhatsApp",
   ],
-  authors: [{ name: "rulo Team" }],
+  authors: [{ name: "rulo" }],
   openGraph: {
-    title: "rulo. | Monetizá la Demanda Oscura",
-    description: "Recuperación automática de ventas con IA. Dejá de perder capital en WhatsApp hoy.",
+    title: "rulo. | Tu negocio vende aunque no estés. Y cada mes te dice por qué.",
+    description:
+      "rulo es el agente de IA que responde por WhatsApp las 24hs, cierra ventas y te entrega un informe mensual con inteligencia real de tu negocio. Sin sueldo, sin comisiones, con ROI garantizado.",
     url: "https://somosrulo.com",
     siteName: "rulo.",
     locale: "es_AR",
@@ -55,28 +58,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "rulo. | Monetizá la Demanda Oscura",
-    description: "Recuperación automática de ventas con IA. ROI garantizado.",
+    title: "rulo. | Agente de IA para WhatsApp — Vendé 24/7",
+    description:
+      "Responde, convierte y aprende de cada chat. A fin de mes te dice qué está fallando en tu negocio. ROI garantizado.",
   },
   icons: {
     icon: [
-      { url: "/favicon/favicon.ico", sizes: "48x48" },
-      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.ico",                   sizes: "48x48"           },
+      { url: "/favicon/favicon.svg",            type:  "image/svg+xml"   },
+      { url: "/favicon/favicon-96x96.png",      sizes: "96x96",  type: "image/png" },
     ],
-    shortcut: "/favicon/favicon.ico",
-    apple: [
-      {
-        url: "/favicon/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
+    shortcut: "/favicon.ico",
+    apple:    [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/favicon/site.webmanifest",
-  appleWebApp: {
-    title: "rulo.",
-  },
+  appleWebApp: { title: "rulo." },
   robots: {
     index: true,
     follow: true,
