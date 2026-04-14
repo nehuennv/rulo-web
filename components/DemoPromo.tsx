@@ -7,7 +7,7 @@ import { useSplashDone } from "@/components/SplashScreen";
 
 const STORAGE_KEY = "rulo-demo-promo-seen";
 const WHATSAPP_DEMO_URL =
-  "https://wa.me/5492645295724?text=Hola,%20vengo%20a%20probar%20la%20demo%20de%20Rulo!";
+  "https://wa.me/5491154756025?text=Hola,%20vengo%20a%20probar%20la%20demo%20de%20Rulo!";
 
 export function DemoPromo() {
   const [show, setShow] = useState(false);
